@@ -13,6 +13,7 @@
 \usepackage{float,lscape}
 \usepackage{color}
 \usepackage{booktabs}
+\usepackage{bm}
 \definecolor{green}{RGB}{34,139,34}
 \definecolor{black}{RGB}{0,0,0}
 \definecolor{blue}{RGB}{0,0,255}
@@ -44,6 +45,69 @@
 This is the project
 \section{Infrastructure Interdependence Analysis}
 
+\subsection*{Question 1}
+Given
+\begin{align}
+	x_i = o_i + f_i = \sum_{j} x_{ij} + f_i
+\end{align}
+\begin{align}
+	x_{ij} = a_{ij}x_{j}
+\end{align}
+we obtain
+\begin{align*}
+	x_i = \sum_{j} a_{ij}x_{j} + f_i = a_{i}\bm{x} + f_i,
+\end{align*}
+where $\bm{x}$ is a $j \times 1$ vector. Similarly, for all cases of $i$, we obtain the matrix equation
+\begin{align}
+	x = Ax + f,
+\end{align}
+where $x$ is a vector, $A$ is a $i \times j$ matrix and f is a $i \times 1$ vector.
 
+\subsection*{Question 2}
+Table 2 in the given instructions sheet presents matrix $A$, which is the matrix of influence coefficients $a_{ij}$. These coefficients should be understood as the fraction of inoperability transmitted by the $j$th infrastructure to the $i$th infrastructure. \\
+\\
+The last row of matrix $A$ corresponds to the $i = 10$ infrastructure; satellite communication and navigation. Thereby, we must understand each coefficient $a_{10j}$ for all $j$ to be the fraction of inoperability transmitted by the $j$th infrastructure to the satellite communication and navigation infrastructure (10th).\\
+\\
+We observe that the coefficients $a_{10j}$ for all $j$ are $0$. This means that the failure of any $j$ infrastructure does not transmit inoperability to the satellite communication and navigation infrastructure. On the other hand, all of the coefficients $a_{i10}$ for all $i \neq 10$ are nonzero. In other words, the operability of the satellite communication and navigation infrastructure is independent of the operability of the other infrastructure, while the operability of the other infrastructure is dependent on the operability of the satellite and communication infrastructure. \\
+\\
+This assumption seems to be reasonable for a $6-12$ hour outage. One can expect satellites to be self-sufficient in terms of energy consumption and maneuverability, but the infrastructure on the Earth to rely heavily on the data provided by the satellite and communication systems. A satellite may be able to operate on its own during a $6-12$ hour outage of the other infrastructure, while the remaining infrastructure is likely to fail during a $6-12$ hour outage of the satellite and communication infrastructure.
+
+\subsection*{Question 3}
+\begin{align}
+	\gamma_i = \frac{1}{n-1}\sum_{j \neq i} a_{ij} \text{ (\textit{row summation})}
+\end{align}
+\begin{align}
+	\delta_i = \frac{1}{n-1}\sum_{i \neq j} a_{ij} \text{ (\textit{column summation})}
+\end{align}
+
+\subsection*{Question 4}
+
+\subsection*{Question 5}
+
+\subsection*{Question 6}
+
+\subsection*{Question 7}
+
+\subsection*{Question 8}
+
+\subsection*{Question 9}
+
+\subsection*{Question 10}
+
+\subsection*{Question 12}
+
+\subsection*{Question 13}
+
+\subsection*{Question 14}
+
+\subsection*{Question 15}
+
+\subsection*{Question 16}
+
+\subsection*{Question 17}
+
+\subsection*{Question 18}
+
+\subsection*{Question 19}
 
 \end{document}
