@@ -1,5 +1,7 @@
-classdef IIM
+classdef IIM < handle
+    
     % IIM 
+    % description
     %{
         this class is an implementation of the Inoperability Input-Output
         model framework for dependency analysis
@@ -9,18 +11,21 @@ classdef IIM
             Paul Gharzouzi
             Jimmy Chang
     %}
+    
+    % methods
     %{   
         PUBLIC:
-            get_A
-            get_S
-            get_gamma_i
-            get_delta_j
-            get_gamma_bar_i
-            get_delta_bar_j
-            get_x
+            IIM(loc_A): constructor
+            get_A(): return matrix A
+            get_S(): return matrix S
+            get_x(f): return vector x
+            get_gamma_i(i): return gamma for row i
+            get_delta_j(j): return delta for column j
+            get_gamma_bar_i(i): return gamma bar for row i
+            get_delta_bar_j(j): return delta bar for column j
     %}
     
-    properties
+    properties (Access = private)
         A
         S
     end
@@ -33,26 +38,35 @@ classdef IIM
                 :param loc_A: address of .csv file holding A
                 :return:
             %}
-           obj.A = obj.load_A(loc_A);
-           obj.S = obj.compute_S();
+           obj.A = csvread(loc_A);
+           obj.S = inv(eye(size(obj.A)) - obj.A);
         end
         
         function A = get_A(obj)
             %{
-                get property A of IIM class instance
+                get matrix A of IIM class instance
                 :param:
-                :return A: property A of IIM class instance
+                :return A: matrix A of IIM class instance
             %}
             A = obj.A;
         end
         
         function S = get_S(obj)
             %{
-                get property S of IIM class instance
+                get matrix S of IIM class instance
                 :param:
-                :return S: property S of IIM class instance
+                :return S: matrix S of IIM class instance
             %}
             S = obj.S;
+        end
+        
+        function x = get_x(obj, f)
+            %{
+                get vector x given vector f
+                :param f: external disturbance vector
+                :return x: degradation vector
+            %}
+            x = obj.compute_x(f);
         end
         
         function gamma_i = get_gamma_i(obj, i)
@@ -90,62 +104,38 @@ classdef IIM
             %}
             delta_bar_j = obj.compute_col_sum(obj.S,j);
         end
-        
-        function x = get_x(obj, f)
-            %{
-                get x given f
-                :param f: external disturbance vector
-                :return x: degradation vector
-            %}
-            x = obj.compute_x(f);
-        end
-        
+       
     end
         
-       
     methods(Access = private)
-        
-        function A = load_A(obj, loc_A)
-            %{
-                load matrix A from loc_A .csv file
-                :param loc_A: address of .csv file holding A
-                :return A: matrix A
-            %}
-            A = loc_A;
-        end
-        
-        function S = compute_S(obj)
-            %{
-                compute matrix S using property A of the IIM class
-                :param:
-                :return S: matrix S
-            %}
-        end
         
         function x = compute_x(obj, f)
             %{
-                get x given f
+                get vector x given vector f
                 :param f: external disturbance vector
                 :return x: degradation vector
             %}
+            x = obj.S*f;
         end
         
-        function row_sum = compute_row_sum(obj, M, i)
+        function row_sum = compute_row_sum(~, M, i)
             %{
                 compute the sum of row i of matrix M
-                :param M: matrix from which sum will be computed
+                :param M: matrix from which row sum will be computed
                 :param i: index for row sum
                 :return row_sum: row sum from matrix M at row i
             %}
+            row_sum = sum(M(i,:));
         end
         
-        function col_sum = compute_col_sum(obj, M, j)
+        function col_sum = compute_col_sum(~, M, j)
             %{
                 compute the sum of column j of matrix M
-                :param M: matrix from which sum will be computed
+                :param M: matrix from which column sum will be computed
                 :param j: index for column sum
                 :return col_sum: column sum from matrix M at column j
             %}
+            col_sum = sum(M(:,j));
         end
         
     end
