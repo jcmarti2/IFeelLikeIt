@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.7)  1 APR 2016 23:22
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.7)  2 APR 2016 17:24
 entering extended mode
 **Report.tex
 (C:\Users\Carlos\Documents\GitHub\IFeelLikeIt\report\latex\Report.tex
@@ -343,13 +343,44 @@ Underfull \hbox (badness 10000) in paragraph at lines 67--74
 
 [1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 79--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 87--92
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 87--92
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 87--92
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 93.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 93.
+ [2] [3] [4] [5]
 (C:\Users\Carlos\Documents\GitHub\IFeelLikeIt\report\latex\Report.aux) ) 
 Here is how much of TeX's memory you used:
- 4223 strings out of 493921
- 56236 string characters out of 3147280
- 151585 words of memory out of 3000000
- 7453 multiletter control sequences out of 15000+200000
+ 4242 strings out of 493921
+ 56562 string characters out of 3147280
+ 152585 words of memory out of 3000000
+ 7469 multiletter control sequences out of 15000+200000
  20092 words of font info for 53 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  34i,10n,40p,603b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -368,9 +399,9 @@ ic/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
 onts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Report.pdf (2 pages, 120878 bytes).
+Output written on Report.pdf (5 pages, 135029 bytes).
 PDF statistics:
- 207 PDF objects out of 1000 (max. 8388607)
+ 236 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
