@@ -104,7 +104,17 @@ classdef IIM < handle
             %}
             delta_bar_j = obj.compute_col_sum(obj.S,j);
         end
-       
+        
+        function x_k = get_damage_propagation(obj, f, k)
+            %{
+                get damage propagation x_k for k propagation steps
+                :param f: external disturbance vector
+                :param k: number of propagation steps
+                :return x_k: array holding damage propagations
+            %}
+            x_k = obj.compute_damage_propagation(f, k);
+        end
+        
     end
         
     methods(Access = private)
@@ -125,7 +135,7 @@ classdef IIM < handle
                 :param i: index for row sum
                 :return row_sum: row sum from matrix M at row i
             %}
-            row_sum = sum(M(i,:));
+            row_sum = sum(M(i,:))/(length(M(i,:)) - 1);
         end
         
         function col_sum = compute_col_sum(~, M, j)
@@ -135,7 +145,20 @@ classdef IIM < handle
                 :param j: index for column sum
                 :return col_sum: column sum from matrix M at column j
             %}
-            col_sum = sum(M(:,j));
+            col_sum = sum(M(:,j))/(length(M(:,j)) - 1);
+        end
+        
+        function x_k = compute_damage_propagation(obj, f, k)   
+            i = 1;
+            x_k = zeros(length(obj.A),k+1);
+            x_k = propagate_damage(obj, x_k, i+1, f, k);
+        end
+        
+        function x_k = propagate_damage(obj,x_k,i,f,k)
+            x_k(:,i) = obj.A*x_k(:,i-1) + f;
+            if i < k
+                x_k = propagate_damage(obj, x_k, i+1, f, k);
+            end
         end
         
     end
