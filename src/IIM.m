@@ -84,7 +84,7 @@ classdef IIM < handle
                 :param j: column index for delta computation
                 :return delta_j: delta from column index j
             %}
-            delta_j = obj.compute_col_sum(obj.A,j);
+            delta_j = obj.compute_col_avg(obj.A,j);
         end
         
         function gamma_bar_i = get_gamma_bar_i(obj, i)
@@ -102,7 +102,7 @@ classdef IIM < handle
                 :param j: column index for delta computation
                 :return delta_bar_j: delta from column index j
             %}
-            delta_bar_j = obj.compute_col_sum(obj.S,j);
+            delta_bar_j = obj.compute_col_avg(obj.S,j);
         end
         
         function x_k = get_damage_propagation(obj, f, k)
@@ -115,12 +115,32 @@ classdef IIM < handle
             x_k = obj.compute_damage_propagation(f, k);
         end
         
-        function x_k = simulate_monte_carlo_A(obj, f, k)
-            x_k = obj.replicate_monte_carlo_A(A, f, k);
+        function x_k = simulate_monte_carlo_A(obj, f, k, low, up)
+            %{
+                perform monte carlo simulation with uncertainity on A
+                :param f: external disturbance vector
+                :param k: number of simulation replications
+                :param low: lower percentage bound (from a given element of
+                            A) for the uniform distriubtion of noise 
+                :param up: upper percentage bound (from a given element of
+                           A) for the uniform distriubtion of noise 
+                :return x_k: array holding simulation results
+            %}
+            x_k = obj.replicate_monte_carlo_A(f, k, low, up);
         end
               
-        function x_k = simulate_monte_carlo_f(obj, f, k)
-            x_k = obj.replicate_monte_carlo_f(A, f, k);
+        function x_k = simulate_monte_carlo_f(obj, f, k, low, up)
+            %{
+                perform monte carlo simulation with uncertainity on f
+                :param f: external disturbance vector
+                :param k: number of simulation replications
+                :param low: lower percentage bound (from a given element of
+                            f) for the uniform distriubtion of noise 
+                :param up: upper percentage bound (from a given element of
+                           f) for the uniform distriubtion of noise 
+                :return x_k: array holding simulation results
+            %}
+            x_k = obj.replicate_monte_carlo_f(f, k, low, up);
         end
         
     end
@@ -146,14 +166,19 @@ classdef IIM < handle
             row_sum = sum(M(i,:))/(length(M(i,:)) - 1);
         end
         
-        function col_sum = compute_col_sum(~, M, j)
+        function col_avg = compute_col_avg(~, M, j)
             %{
-                compute the sum of column j of matrix M
-                :param M: matrix from which column sum will be computed
-                :param j: index for column sum
-                :return col_sum: column sum from matrix M at column j
+                compute the average of column j of matrix M
+                :param M: matrix from which column average will be computed
+                :param j: index for column average
+                :return col_sum: column average from matrix M at column j
             %}
-            col_sum = sum(M(:,j))/(length(M(:,j)) - 1);
+            vec = [M(1:j-1,j), M(j+1:-1,j)];
+            disp(M)
+            %disp(M(1:j-1,j))
+            %disp(M(j+1:end,j))
+            disp(vec)
+            col_avg = sum(vec)/length(vec);
         end
         
         function x_k = compute_damage_propagation(obj, f, k)
@@ -187,30 +212,56 @@ classdef IIM < handle
             end
         end
         
-        function x_k = replicate_monte_carlo_A(obj, A, f, k)
+        function x_k = replicate_monte_carlo_A(obj, f, k, low, up)
             %{
+                perform monte carlo replications with uncertainity on A
+                :param f: external disturbance vector
+                :param k: number of simulation replications
+                :param low: lower percentage bound (from a given element of
+                            A) for the uniform distriubtion of noise 
+                :param up: upper percentage bound (from a given element of
+                           A) for the uniform distriubtion of noise 
+                :return x_k: array holding simulation results
             %}
-            x_k = zeros(length(A),k);
+            x_k = zeros(length(obj.A),k);
             for i = 1:k
-                Ai = obj.add_noise(obj.A,up,down);
-                Si = inv(eye(size(A)) - A);
+                Ai = obj.add_noise(obj.A,low,up);
+                Si = inv(eye(size(Ai)) - Ai);
                 x_k(:,i) = Si*f;   
             end
         end
         
-        function x_k = replicate_monte_carlo_f(obj, A, f, k)
+        function x_k = replicate_monte_carlo_f(obj, f, k, low, up)
             %{
+                perform monte carlo replications with uncertainity on f
+                :param f: external disturbance vector
+                :param k: number of simulation replications
+                :param low: lower percentage bound (from a given element of
+                            f) for the uniform distriubtion of noise 
+                :param up: upper percentage bound (from a given element of
+                           f) for the uniform distriubtion of noise 
+                :return x_k: array holding simulation results
             %}
-            x_k = zeros(length(A),k);
+            x_k = zeros(length(obj.A),k);
             for i = 1:k
-                fi = obj.add_noise(f,up,down);
+                fi = obj.add_noise(f,low,up);
                 x_k(:,i) = obj.S*fi;   
             end
         end
         
-        function M = add_noise(obj, M, up, down)
+        function M = add_noise(~, M, low, up)
             %{
+                add uniformly distributed noise to matrix M
+                :param M: matrix which will have noise added
+                :param low: lower percentage bound (from a given element of
+                            M) for the uniform distriubtion of noise
+                :param up: upper percentage bound (from a given element of
+                            M) for the uniform distribution of noise
+                :return M: matrix with added uniformly distributed rnoise
             %}
+            low = low/100;
+            up = up/100;
+            M = (up - low).*M.*rand(size(M)) + (1+low).*M;  
         end
         
     end
