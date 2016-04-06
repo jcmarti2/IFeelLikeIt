@@ -115,6 +115,14 @@ classdef IIM < handle
             x_k = obj.compute_damage_propagation(f, k);
         end
         
+        function x_k = simulate_monte_carlo_A(obj, f, k)
+            x_k = obj.replicate_monte_carlo_A(A, f, k);
+        end
+              
+        function x_k = simulate_monte_carlo_f(obj, f, k)
+            x_k = obj.replicate_monte_carlo_f(A, f, k);
+        end
+        
     end
         
     methods(Access = private)
@@ -148,17 +156,61 @@ classdef IIM < handle
             col_sum = sum(M(:,j))/(length(M(:,j)) - 1);
         end
         
-        function x_k = compute_damage_propagation(obj, f, k)   
+        function x_k = compute_damage_propagation(obj, f, k)
+            %{
+                get damage propagation x_k for k propagation steps
+                :param f: external disturbance vector
+                :param k: number of propagation steps
+                :return x_k: array holding damage propagations
+            %}
+            % set initial step and initialize storage structure
             i = 1;
             x_k = zeros(length(obj.A),k+1);
+            % call recursive helper function
             x_k = propagate_damage(obj, x_k, i+1, f, k);
         end
         
-        function x_k = propagate_damage(obj,x_k,i,f,k)
+        function x_k = propagate_damage(obj, x_k, i, f, k)
+            %{
+                recursive function to propagate damage to the kth step
+                :param x_k: structure were damage propagation is stored
+                :param i: current propagation step
+                :param f: external disturbance vector
+                :param k: number of propagation steps
+                :return x_k: structure were damage propagation is stored
+            %}
+            % base case
             x_k(:,i) = obj.A*x_k(:,i-1) + f;
-            if i < k
+            % recursive step
+            if i <= k
                 x_k = propagate_damage(obj, x_k, i+1, f, k);
             end
+        end
+        
+        function x_k = replicate_monte_carlo_A(obj, A, f, k)
+            %{
+            %}
+            x_k = zeros(length(A),k);
+            for i = 1:k
+                Ai = obj.add_noise(obj.A,up,down);
+                Si = inv(eye(size(A)) - A);
+                x_k(:,i) = Si*f;   
+            end
+        end
+        
+        function x_k = replicate_monte_carlo_f(obj, A, f, k)
+            %{
+            %}
+            x_k = zeros(length(A),k);
+            for i = 1:k
+                fi = obj.add_noise(f,up,down);
+                x_k(:,i) = obj.S*fi;   
+            end
+        end
+        
+        function M = add_noise(obj, M, up, down)
+            %{
+            %}
         end
         
     end
