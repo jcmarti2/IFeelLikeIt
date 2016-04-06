@@ -23,6 +23,10 @@ classdef IIM < handle
             get_delta_j(j): return delta for column j
             get_gamma_bar_i(i): return gamma bar for row i
             get_delta_bar_j(j): return delta bar for column j
+            get_damage_propagation(f,k): return array holding damage
+                                         propagations for k steps
+            simulate_monte_carlo_A
+            simulate_monte_carlo_f
     %}
     
     properties (Access = private)
@@ -75,7 +79,7 @@ classdef IIM < handle
                 :param i: row index for gamma computation
                 :return gamma_i: gamma from row index i
             %}
-            gamma_i = obj.compute_row_sum(obj.A,i);
+            gamma_i = obj.compute_row_avg(obj.A,i);
         end
         
         function delta_j = get_delta_j(obj, j)
@@ -93,7 +97,7 @@ classdef IIM < handle
                 :param i: row index for gamma computation
                 :return gamma_bar_i: gamma from row index i
             %}
-            gamma_bar_i = obj.compute_row_sum(obj.S,i);
+            gamma_bar_i = obj.compute_row_avg(obj.S,i);
         end
         
         function delta_bar_j = get_delta_bar_j(obj, j)
@@ -156,14 +160,15 @@ classdef IIM < handle
             x = obj.S*f;
         end
         
-        function row_sum = compute_row_sum(~, M, i)
+        function row_avg = compute_row_avg(~, M, i)
             %{
-                compute the sum of row i of matrix M
-                :param M: matrix from which row sum will be computed
-                :param i: index for row sum
-                :return row_sum: row sum from matrix M at row i
+                compute the average of row i of matrix M
+                :param M: matrix from which row average will be computed
+                :param i: index for row average
+                :return row_avg: row average from matrix M at row i
             %}
-            row_sum = sum(M(i,:))/(length(M(i,:)) - 1);
+            vec = [M(i,1:i-1), M(i,i+1:end)];
+            row_avg = sum(vec)/length(vec);
         end
         
         function col_avg = compute_col_avg(~, M, j)
@@ -171,13 +176,9 @@ classdef IIM < handle
                 compute the average of column j of matrix M
                 :param M: matrix from which column average will be computed
                 :param j: index for column average
-                :return col_sum: column average from matrix M at column j
+                :return col_avg: column average from matrix M at column j
             %}
-            vec = [M(1:j-1,j), M(j+1:-1,j)];
-            disp(M)
-            %disp(M(1:j-1,j))
-            %disp(M(j+1:end,j))
-            disp(vec)
+            vec = [M(1:j-1,j); M(j+1:end,j)];
             col_avg = sum(vec)/length(vec);
         end
         
@@ -212,7 +213,7 @@ classdef IIM < handle
             end
         end
         
-        function x_k = replicate_monte_carlo_A(obj, f, k, low, up)
+        function mc_k = replicate_monte_carlo_A(obj, f, k, low, up)
             %{
                 perform monte carlo replications with uncertainity on A
                 :param f: external disturbance vector
@@ -221,17 +222,17 @@ classdef IIM < handle
                             A) for the uniform distriubtion of noise 
                 :param up: upper percentage bound (from a given element of
                            A) for the uniform distriubtion of noise 
-                :return x_k: array holding simulation results
+                :return mc_k: array holding simulation results
             %}
-            x_k = zeros(length(obj.A),k);
+            mc_k = zeros(length(obj.A),k);
             for i = 1:k
                 Ai = obj.add_noise(obj.A,low,up);
                 Si = inv(eye(size(Ai)) - Ai);
-                x_k(:,i) = Si*f;   
+                mc_k(:,i) = Si*f;   
             end
         end
         
-        function x_k = replicate_monte_carlo_f(obj, f, k, low, up)
+        function mc_k = replicate_monte_carlo_f(obj, f, k, low, up)
             %{
                 perform monte carlo replications with uncertainity on f
                 :param f: external disturbance vector
@@ -240,12 +241,12 @@ classdef IIM < handle
                             f) for the uniform distriubtion of noise 
                 :param up: upper percentage bound (from a given element of
                            f) for the uniform distriubtion of noise 
-                :return x_k: array holding simulation results
+                :return mc_k: array holding simulation results
             %}
-            x_k = zeros(length(obj.A),k);
+            mc_k = zeros(length(obj.A),k);
             for i = 1:k
                 fi = obj.add_noise(f,low,up);
-                x_k(:,i) = obj.S*fi;   
+                mc_k(:,i) = obj.S*fi;   
             end
         end
         
