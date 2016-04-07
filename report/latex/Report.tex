@@ -77,9 +77,9 @@ The dependency index of infrastructure $i$, $\gamma_i$ is defined as:
 \begin{align}
 	\gamma_i = \frac{1}{n-1}\sum_{j \neq i} a_{ij} \text{ (\textit{row summation})}.
 \end{align}
-The sum of the $a_{ij}$ coefficients reveals the total direct damage on infrastructure $i$ transmitted from the damage of each infrastructure $j$ such that $j \neq i$. By dividing the sum by $n-1$ we compute the index $\gamma_i$, which indicates the average damage on infrastructure $i$ from any other infrastructure.\\
+The sum of the $a_{ij}$ coefficients reveals the total direct damage on infrastructure $i$ transmitted from the damage of each infrastructure $j$ such that $j \neq i$. By dividing the sum by $n-1$ we compute the index $\gamma_i$, which indicates the average damage on infrastructure $i$ from any other infrastructure. \\
 \\
-In a sense, this index is a measure of the dependence of an infrastructure on the operability of other infrastructure, where a high value indicates a high dependency and a low value indicates a low dependency.\\
+In a sense, this index is a measure of the dependence of an infrastructure on the operability of other infrastructure, where a high value indicates a high dependency and a low value indicates a low dependency. The larger the index, the more direct damage infrastructure $i$ receives from the inoperability of the entire infrastructure system.\\
 \\
 Likewise, the influence index of infrastructure $j$, $\delta_j$ is defined as:
 \begin{align}
@@ -87,11 +87,8 @@ Likewise, the influence index of infrastructure $j$, $\delta_j$ is defined as:
 \end{align}
 The sum of the $a_{ij}$ coefficients reveals the total direct damage of infrastructure $j$ transmitted to the damage of each infrastructure $i$ such that $i \neq j$. By dividing the sum by $n-1$ we compute the index $\delta_j$, which indicates the average influence of infrastructure $j$ has on any other infrastructure. \\
 \\
-In a sense, this index is a measure of the influence an infrastructure has on the operability of other infrastructure, where a high value indicates a high influence and a low value indicates a low influence. The larger the index of a certain infrastructure sector, the higher the criticality of this infrastructure on the infrastructure system. \\
+In a sense, this index is a measure of the influence an infrastructure has on the operability of other infrastructure, where a high value indicates a high influence and a low value indicates a low influence. The larger the index, the larger direct impact from the inoperability of infrastructure $j$ on the entire infrastructure system. \\
 \\
-\begin{itemize}
-	\item Check criticality statement
-\end{itemize}
 
 \subsection*{Question 4}
 Starting from Equation \ref{eq: EIO Equation}, we can compute the following:
@@ -105,19 +102,46 @@ We can express the matrix $(I-A)^{-1}$ as matrix $S$, finally obtaining the solu
 \begin{align} \label{eq: EIO Solution}
 	x = Sf
 \end{align}
-Note that the information provided in Table 2 corresponds to matrix $A$. To compute the $S$ in Equation \ref{eq: EIO Solution} we need to follow our definition of S, $S = (I-A)^{-1}$. The matrix $A$ must be a square matrix with coefficients between $0$ and $1$ and the $I-A$ matrix must invertible. 
-\begin{itemize}
-	\item Check if A is invertible then I-A is invertible 
-	\item We should make sure that all of the items in S are not negative since s is computed as 1 over 1 - a
-\end{itemize}
+Note that the information provided in Table 2 corresponds to matrix $A$. To compute the $S$ in Equation \ref{eq: EIO Solution} we need to follow our definition of S, $S = (I-A)^{-1}$. The matrix $A$ must be a square matrix with coefficients between $0$ and $1$ and the $I-A$ matrix must invertible. \\
+\\
+Both matrix $A$ and matrix $S$ are composed of $i$ rows and $j$ columns, where $i=j$. The elements of matrix $A$, $a_{ij}$, represent the first damage propagation step from infrastructure $j$ on infrastructure $i$. The elements of matrix $S$, $s_{ij}$, represent the total damage propagation from infrastructure $j$ on infrastructure $i$. This is, the total damage propagation from infrastructure $j$ on infrastructure $i$ that the system converges to after a series of recursive damage propagation steps.
 
 \subsection*{Question 5}
-\begin{itemize}
-	\item Each element of S is an indicator of the indirect impact on the entire infrastructure system due to the propagation of failure from infrastrucure sector j to infrastructure sector i 
-	\item Give explanatory example (MAYBE)
-\end{itemize}
+The matrix $S$ is an indicator of the total impact of an external shock on the entire infrastructure system. In particular, every $s_{ij}$ reveals the infinite propagation of the damage of an infrastructure sector $j$ to infrastructure sector $i$. Every $s_{ij}$ should be greater than or equal to the corresponding $a_{ij}$ from matrix $A$. This is because $s_{ij}$ includes the direct damage captured by $a_{ij}$ and the subsequent inoperability propagation of failure, as explained in Question 4. \\
+\\
+The matrix $S$ computed after the matrix $A$ found in Table 2 of the instructions sheet can be found in Table \ref{tab: Matrix S}.
+
+\begin{table}[H]
+  \centering
+  \caption{Matrix $S$ for a 6-12 hr outage.}
+    \begin{tabular}{r|rrrrrrrrrr}
+    \toprule
+    Sector Id & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{2} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{6} & \multicolumn{1}{c}{7} & \multicolumn{1}{c}{8} & \multicolumn{1}{c}{9} & \multicolumn{1}{c}{10} \\
+    \midrule
+    1     & 1.004 & 0.237 & 0.325 & 0.510 & 0.038 & 0.029 & 0.016 & 0.027 & 0.053 & 0.319 \\
+    2     & 0.001 & 1.012 & 0.013 & 0.027 & 0.002 & 0.003 & 0.001 & 0.003 & 0.180 & 0.005 \\
+    3     & 0.003 & 0.124 & 1.005 & 0.126 & 0.003 & 0.006 & 0.003 & 0.003 & 0.027 & 0.009 \\
+    4     & 0.006 & 0.089 & 0.017 & 1.008 & 0.005 & 0.004 & 0.004 & 0.002 & 0.020 & 0.008 \\
+    5     & 0.005 & 0.061 & 0.013 & 0.027 & 1.001 & 0.006 & 0.008 & 0.008 & 0.019 & 0.022 \\
+    6     & 0.002 & 0.263 & 0.111 & 0.131 & 0.007 & 1.002 & 0.008 & 0.007 & 0.049 & 0.008 \\
+    7     & 0.004 & 0.118 & 0.035 & 0.110 & 0.008 & 0.004 & 1.001 & 0.004 & 0.029 & 0.011 \\
+    8     & 0.009 & 0.535 & 0.114 & 0.087 & 0.052 & 0.023 & 0.022 & 1.003 & 0.097 & 0.016 \\
+    9     & 0.002 & 0.036 & 0.011 & 0.009 & 0.005 & 0.000 & 0.002 & 0.005 & 1.006 & 0.006 \\
+    10    & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 1.000 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab: Matrix S}%
+\end{table}%
+From Table \ref{tab: Matrix S} we can observe that $s_{12} = 0.237$ is smaller than $s_{82}=0.535$. This indicates that sector 2 has a bigger total impact on sector 8 than on sector 1 due to the propagation of damage of sector 2 to the entire infrastructure system. \\
+\\
+Comparing the case for the elements of matrix $A$, we can observe that $a_{101}$ is 0 and $s_{101}$ remained 0. This means that there is neither direct propagation of inoperability of sector 1 (air transportation) to sector 10 (satellite communication and navigation) during a 6-12 hr outage, nor total damage propagation. \\
+\\
+However, $a_{22}$ is 0 and the corresponding $s_{22}$ is 1.012. This reveals that there is no direct damage propagation from the infrastructure on itself (based on the given assumption), yet there is a total damage on sector 2 due to the propagation of damage on the entire infrastructure system. 
+
 
 \subsection*{Question 6}
+As explained in Questions 4 and 5, matrix $S$ encompasses matrix $A$. Matrix $A$ captures the direct propagation of inoperability of the entire system whereas matrix $S$ represents the infinite propagation of damage on the system. Therefore, it is easier to collect and to model the first tier of damage for every combination of $ij$ pairs than to model the infinite propagation of damage.\\
+\\
 \begin{itemize}
 	\item Check of paper of Setola
 	\item Dan said that A is computed from surveys, and it is easier to tell how your own infrastructe would be affected by failure of other infrastructure than
