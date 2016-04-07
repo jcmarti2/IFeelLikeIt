@@ -31,3 +31,10 @@ end
 % 2.13
 f_213 = [0.35 0.1 0 0 0 0.5 0 0 0 0]';
 x_213 = IIM.get_x(f_213);
+
+% 2.18
+IIM.simulate_monte_carlo_A(f, 10, -15, -15)
+IIM.simulate_monte_carlo_f(f, 10, -15, -15)
+
+IIM.simulate_monte_carlo_A(f, 10, 15, 15)
+IIM.simulate_monte_carlo_f(f, 10, 15, 15)

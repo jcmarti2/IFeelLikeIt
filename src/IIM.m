@@ -25,8 +25,8 @@ classdef IIM < handle
             get_delta_bar_j(j): return delta bar for column j
             get_damage_propagation(f,k): return array holding damage
                                          propagations for k steps
-            simulate_monte_carlo_A
-            simulate_monte_carlo_f
+            simulate_monte_carlo_A(f,k,low,up)
+            simulate_monte_carlo_f(f,k,low,up)
     %}
     
     properties (Access = private)
@@ -194,6 +194,8 @@ classdef IIM < handle
             x_k = zeros(length(obj.A),k+1);
             % call recursive helper function
             x_k = propagate_damage(obj, x_k, i+1, f, k);
+            %x = obj.get_x(f);
+            %bar3(x_k)
         end
         
         function x_k = propagate_damage(obj, x_k, i, f, k)
@@ -230,6 +232,7 @@ classdef IIM < handle
                 Si = inv(eye(size(Ai)) - Ai);
                 mc_k(:,i) = Si*f;   
             end
+            bar3(mc_k)
         end
         
         function mc_k = replicate_monte_carlo_f(obj, f, k, low, up)
