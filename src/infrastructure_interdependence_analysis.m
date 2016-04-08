@@ -121,13 +121,13 @@ if q_2_15
     k_215 = 10;
     x_k_215 = IIM.get_damage_propagation(f_215,k_215);
     num_fig = 0;
-    num_k_per_fig = 5;
+    num_per_fig = 5;
     for i = 1:len
-        if mod(i,num_k_per_fig) == 1
+        if mod(i,num_per_fig) == 1
             figure()
             num_fig = num_fig + 1;
         end
-        subplot(num_k_per_fig,1,i - num_k_per_fig*(num_fig - 1))
+        subplot(num_per_fig,1,i - num_per_fig*(num_fig - 1))
         plot(x_k_215(i,:))
     end
 end
