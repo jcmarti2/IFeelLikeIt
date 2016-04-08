@@ -119,7 +119,7 @@ classdef IIM < handle
             x_k = obj.compute_damage_propagation(f, k);
         end
         
-        function x_k = simulate_monte_carlo_A(obj, f, k, low, up)
+        function mc_k = simulate_monte_carlo_A(obj, f, k, low, up)
             %{
                 perform monte carlo simulation with uncertainity on A
                 :param f: external disturbance vector
@@ -128,12 +128,12 @@ classdef IIM < handle
                             A) for the uniform distriubtion of noise 
                 :param up: upper percentage bound (from a given element of
                            A) for the uniform distriubtion of noise 
-                :return x_k: array holding simulation results
+                :return mc_k: array holding simulation results
             %}
-            x_k = obj.replicate_monte_carlo_A(f, k, low, up);
+            mc_k = obj.replicate_monte_carlo_A(f, k, low, up);
         end
               
-        function x_k = simulate_monte_carlo_f(obj, f, k, low, up)
+        function mc_k = simulate_monte_carlo_f(obj, f, k, low, up)
             %{
                 perform monte carlo simulation with uncertainity on f
                 :param f: external disturbance vector
@@ -142,9 +142,9 @@ classdef IIM < handle
                             f) for the uniform distriubtion of noise 
                 :param up: upper percentage bound (from a given element of
                            f) for the uniform distriubtion of noise 
-                :return x_k: array holding simulation results
+                :return mc_k: array holding simulation results
             %}
-            x_k = obj.replicate_monte_carlo_f(f, k, low, up);
+            mc_k = obj.replicate_monte_carlo_f(f, k, low, up);
         end
         
     end
@@ -232,7 +232,6 @@ classdef IIM < handle
                 Si = inv(eye(size(Ai)) - Ai);
                 mc_k(:,i) = Si*f;   
             end
-            bar3(mc_k)
         end
         
         function mc_k = replicate_monte_carlo_f(obj, f, k, low, up)
