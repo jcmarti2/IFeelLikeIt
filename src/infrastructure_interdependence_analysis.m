@@ -113,6 +113,10 @@ end
 if q_2_13
     f_213 = [0.35 0.1 0 0 0 0.5 0 0 0 0]';
     x_213 = IIM.get_x(f_213);
+    bar(x_213)
+    title('Snowstorm Effects','Interpreter','latex')
+    ylabel('Overall Damage','Interpreter','latex')
+    xlabel('Infrastructure Sector','Interpreter','latex')
 end
 
 %2.15
