@@ -25,11 +25,11 @@ file = '../data/A.csv';
 len = 10;
 q_2_9 = false;
 q_2_10 = false;
-q_2_12 = false; % TODO (ALSO IN IIM CLASS)
+q_2_12 = true;
 q_2_13 = false;
 q_2_15 = false;
-q_2_16 = true;
-q_2_17 = true; 
+q_2_16 = false;
+q_2_17 = false; 
 q_2_18 = false; 
 q_2_19 = false; % TODO (ALSO IN IIM CLASS)
 
@@ -91,26 +91,55 @@ end
 
 % 2.12
 if q_2_12
-    % TODO ADD FUNCTION IN CLASS THAT CHANGES ELEMENTS OF A AND COMPUTES 
-    % NEW S
-    gamma_bar = zeros(len,1);
+    changes = zeros(len,len);
+    changes(:,2) = [0 0 10 10 0 0 0 -10 -10 10]' ;
+    
+    gamma_bar_old = zeros(len,1);
     for i = 1:len
-        gamma_bar(i) = IIM.get_gamma_bar_i(i);
+        gamma_bar_old(i) = IIM.get_gamma_bar_i(i);
     end
-    delta_bar = zeros(len,1);
+    delta_bar_old = zeros(len,1);
     for j = 1:len
-        delta_bar(j) = IIM.get_delta_bar_j(j);
+        delta_bar_old(j) = IIM.get_delta_bar_j(j);
     end
+    
+    IIM.modify_A(changes);
+    gamma_bar_new = zeros(len,1);
+    for i = 1:len
+        gamma_bar_new(i) = IIM.get_gamma_bar_i(i);
+    end
+    delta_bar_new = zeros(len,1);
+    for j = 1:len
+        delta_bar_new(j) = IIM.get_delta_bar_j(j);
+    end
+    
     figure()
-    bar(gamma_bar)
+    bar(gamma_bar_new)
     title('Overall Infrastructure Dependency Indices ( $\bar{\gamma}$ $_{i}$ )','Interpreter','latex')
     ylabel('Overall Index ( $\gamma_{i}$ )','Interpreter','latex')
     xlabel('Infrastructure Sector ($i$)','Interpreter','latex')
+    grid on
     figure()
-    bar(delta_bar)
+    bar(delta_bar_new)
     title('Overall Infrastructure Influence Indices ( $\bar{\delta}$ $_{j}$ )','Interpreter','latex')
     ylabel('Overall Index ( $\delta_{j}$ )','Interpreter','latex')
     xlabel('Infrastructure Sector ($j$)','Interpreter','latex')
+    grid on
+    
+    change_gamma = 100*(gamma_bar_new - gamma_bar_old)./gamma_bar_old;
+    change_delta = 100*(delta_bar_new - delta_bar_old)./delta_bar_old;
+    figure()
+    bar(change_gamma)
+    title('Percent Change in Overall Infrastructure Dependency Indices ( $\bar{\gamma}$ $_{i}$ )','Interpreter','latex')
+    ylabel('Percent Change in Overall Index ( $\gamma_{i}$ ) [\%]','Interpreter','latex')
+    xlabel('Infrastructure Sector ($i$)','Interpreter','latex')
+    grid on
+    figure()
+    bar(change_delta)
+    title('Percent Change in Overall Infrastructure Influence Indices ( $\bar{\delta}$ $_{j}$ )','Interpreter','latex')
+    ylabel('Percent Change in Overall Index ( $\delta_{j}$ ) [\%]','Interpreter','latex')
+    xlabel('Infrastructure Sector ($j$)','Interpreter','latex')
+    grid on
 end
 
 % 2.13
@@ -209,6 +238,10 @@ if q_2_16
                'HorizontalAlignment', 'center', 'interpreter', 'latex')
     figure()
     boxplot(mc_k')
+    title('Monte Carlo Simulation with Uncertainty in A','interpreter','latex')
+    xlabel('Infrastructure Sector','interpreter', 'latex')
+    ylabel('Overall Damage','interpreter', 'latex')
+    ylim([0 1])
     grid on
 end
 
@@ -240,9 +273,13 @@ if q_2_17
                'String', 'Monte Carlo Simulation with Uncertainity in f', ...
                'EdgeColor', 'none', 'fontsize', 14, ...
                'HorizontalAlignment', 'center', 'interpreter', 'latex')
-
     figure()
     boxplot(mc_k')
+    title('Monte Carlo Simulation with Uncertainty in f','interpreter','latex')
+    xlabel('Infrastructure Sector','interpreter', 'latex')
+    ylabel('Overall Damage','interpreter', 'latex')
+    ylim([0 1])
+    grid on
 end
 
 % 2.18

@@ -109,6 +109,17 @@ classdef IIM < handle
             delta_bar_j = obj.compute_col_avg(obj.S,j);
         end
         
+        function modify_A(obj, changes)
+            %{
+                modify obj.A according to specified parameters and 
+                compute new obj.S
+                :param changes: matrix holding changes from original A in
+                                percent change per element
+                :return:
+            %}
+            obj.reconstruct_IIM(changes);
+        end
+        
         function x_k = get_damage_propagation(obj, f, k)
             %{
                 get damage propagation x_k for k propagation steps
@@ -180,6 +191,18 @@ classdef IIM < handle
             %}
             vec = [M(1:j-1,j); M(j+1:end,j)];
             col_avg = sum(vec)/length(vec);
+        end
+        
+        function reconstruct_IIM(obj, changes)
+            %{
+                change obj.A and obj.S by adding specified changes to obj.A
+                :param changes: matrix holding changes from original A in
+                                percent change per element
+                :return:
+            %}
+           changes = changes./100;
+           obj.A = obj.A + obj.A.*changes;
+           obj.S = inv(eye(size(obj.A)) - obj.A);
         end
         
         function x_k = compute_damage_propagation(obj, f, k)
