@@ -87,7 +87,7 @@ Likewise, the influence index of infrastructure $j$, $\delta_j$ is defined as:
 \end{align}
 The sum of the $a_{ij}$ coefficients reveals the total direct damage of infrastructure $j$ transmitted to the damage of each infrastructure $i$ such that $i \neq j$. By dividing the sum by $n-1$ we compute the index $\delta_j$, which indicates the average influence of infrastructure $j$ has on any other infrastructure. \\
 \\
-In a sense, this index is a measure of the influence an infrastructure has on the operability of other infrastructure, where a high value indicates a high influence and a low value indicates a low influence. The larger the index, the larger direct impact from the inoperability of infrastructure $j$ on the entire infrastructure system. \\
+In a sense, this index is a measure of the influence an infrastructure has on the operability of other infrastructure, where a high value indicates a high influence and a low value indicates a low influence. The larger the index, the greater the direct impact the inoperability of infrastructure $j$ has on the entire infrastructure system. \\
 \\
 
 \subsection*{Question 4}
@@ -142,44 +142,99 @@ However, $a_{22}$ is 0 and the corresponding $s_{22}$ is 1.012. This reveals tha
 \subsection*{Question 6}
 As explained in Questions 4 and 5, matrix $S$ encompasses matrix $A$. Matrix $A$ captures the direct propagation of inoperability of the entire system whereas matrix $S$ represents the infinite propagation of damage on the system. Therefore, it is easier to collect and to model the first tier of damage for every combination of $ij$ pairs than to model the infinite propagation of damage.\\
 \\
-\begin{itemize}
-	\item Check of paper of Setola
-	\item Dan said that A is computed from surveys, and it is easier to tell how your own infrastructe would be affected by failure of other infrastructure than
-	\item From a data collection perspective it is easier to calculate the direct impact of a failure of one infrastructure to another than the propagation of failures from one infrastructure to the rest
-	\item From a modeling perspective, it is easier to keep track of matrix A as the direct dependencies between sectors are more intuitive than the chain propgatations between all of the sectors. If errors arise, it is easier to check what went wrong with A than trying to figure out what is wrong with S. 
-\end{itemize}
+From a data collection perspective, Setola et al. explain that "infrastructure owners and operators generally have a good idea of how much their infrastructures depend on the resources provided directly by other infrastructures" (2009). However, assessing further propagation of damage is more challenging because of the limited information that the owners and operators have on the "implications of higher-order (inter)dependencies" (Setola et al., 2009). \\
+\\
+Furthermore, despite the complexity of modeling matrix $S$, there is a straightforward approach to find $S$ once we have matrix $A$, as shown in Question 1. This further emphasizes on why it is easier to obtain the elements in matrix $A$ compared to the ones in $S$.
 
 \subsection*{Question 7}
-\begin{itemize}
-	\item Write down equations (replace a ij with s ij)
-	\item The overall influence index in a way is the same definition but instead of direct is total. At the end, this index reveals the most critical sectors of infrastructure system
-	\item The overall dependency index is the same definition but instead is total. This index reveals the sectors that are most dependent on the operability of the other sectors of the infrastructure system
-	\item You are as strong as your weaskest link 
-\end{itemize}
+
+The overall dependency index of infrastructure $i$, $\overline\gamma_i$ is defined as:
+\begin{align}
+	\overline\gamma_i = \frac{1}{n-1}\sum_{j \neq i} s_{ij} \text{ (\textit{row summation})}.
+\end{align}
+The sum of the $s_{ij}$ coefficients reveals the overall damage on infrastructure $i$ transmitted from the damage of each infrastructure $j$ ??such that $j \neq i$??, as a result of the higher-order interdependencies in the infrastructure system. By dividing the sum by $n-1$ we compute the index $\\overline\gamma_i$, which indicates the average overall damage on infrastructure $i$ from any other infrastructure. \\
+\\
+In a sense, we define this index as a measure of the vulnerability of an infrastructure sector within the entire infrastructure system, where a high value indicates a high vulnerability and a low value indicates a low vulnerability. The larger the index, the bigger the total damage infrastructure $i$ receives from the inoperability of the entire infrastructure system.\\
+\\
+Likewise, the influence index of infrastructure $j$, $\overline\delta_j$ is defined as:
+\begin{align}
+	\overline\delta_j = \frac{1}{n-1}\sum_{i \neq j} s_{ij} \text{ (\textit{column summation})}.
+\end{align}
+The sum of the $s_{ij}$ coefficients reveals the overall damage transmitted from infrastructure $j$ to each infrastructure $i$ ?? such that $i \neq j$ ??, as a result of the higher-order interdependencies in the infrastructure system. By dividing the sum by $n-1$ we compute the index $\overline\delta_j$, which indicates the average total influence that infrastructure $j$ has on any other infrastructure.\\
+\\
+In a sense, we define this index as a measure of the criticality of an infrastructure sector within the infrastructure system, where a high value indicates a high criticality and a low value indicates a low criticality. The larger the index, the greater the total impact the inoperability of infrastructure $j$ has on the entire infrastructure system, so the more critical this sector $j$ is.
 
 \subsection*{Question 8}
-\begin{itemize}
-	\item Electricity is most dependent on natural gas while natural gas is most dependent on electricity
-	\item Electricity influecnes fuel and petroleum the most while natural gas influences electricty the msot
-	\item For sector 2, we see that the column values are generally higher than the row values, which means that sector 2 has a great direct influence on the other sectors while is less impacteed directly by the failure of other sectors
-	\item Similarly for natural gas, except that 8 of the 9 row coefficients (excluding index 9,9) are below 0.01, which reveals very low direct dependency of the natural gas sector. Also the column of natural gas is 
-	\item In both cases, it looks like electricty is more critical and is influenced more by the damage of other sectors
-	\item THis makes sense, because the natural gas is a fuel source with substitutes, while electricity has really no substitutes
-\end{itemize}
+
+By comparing the coefficients of column 2 of matrix $A$ for the electricity sector (Table 2 of the instructions sheet), we can observe that electricity has the biggest direct influence on the sector of fuel and petroleum grid ($a_{82} = 0.500$). Moreover, it appears that the electricity sector directly depends the most on the sector of natural gas, based on the coefficients of row 2 of matrix $A$ ($a_{29} = 0.178$).\\
+\\
+As for the sector of natural gas, we can observe that this infrastructure has the greatest influence on the electricity sector ($a_{29} = 0.178$) while also directly depending on the electricity the most ($a_{92} = 0.030$). These coefficients reveal the significant dependency between the sectors of electricity and natural gas.\\
+\\
+Besides the observations for each sector, we can see that the column coefficients (column 2)for the electricity sector are generally higher than the row values (row 2). This means that the electricity sector has a larger direct influence on the other sectors compared to its direct dependence on the infrastructure system. The natural gas sector has a low direct dependency, shown by having 8 of 9 row coefficients (excluding itself) be less than 0.01.In addition, the dependency and influence coefficients for the electricity sector are generally higher than the ones for natural gas, which means that the electricity sector is more critical and dependent more by the damage of other sectors. From a practical perspective, these observations can be realistic because the natural gas is a fuel source with other substitutes in the market, whereas electricity has no feasible substitutes in a 6-12 hour outage.
 
 \subsection*{Question 9}
-\begin{itemize}
-	\item TODO: MATLAB code PAUL
-	\item Plot
-	\item Discuss after code is done and put answer
-\end{itemize}
 
+The indices $\gamma_i$ and $\delta_j$ have been calculated using a script and a class in MATLAB. The class includes the equations (5) and (6) provided in the instructions sheet as part of the public functions NAME. These functions are called within the script NAME to compute the indices $\gamma_i$ and $\delta_j$. 
+\underline{\textbf{Note:}} For the aforementioned script and class, please refer to the appendix. For the MATLAB code, please refer to the script entitled  and the class entitled  that are uploaded on compass 2g.
+
+The indices $\gamma_i$ and $\delta_j$ for every infrastructure sector are presented in the figures NUMBER AND NUMBER below.
+
+\begin{figure}
+	\label{fig: Gamma}
+	\centering
+	\includegraphics[width=0.8\textwidth]
+    {gamma.png}
+    \caption{Dependency index for all the sectors}
+\end{figure}
+
+\begin{figure}
+	\label{fig: Delta}
+	\centering
+	\includegraphics[width=0.8\textwidth]
+    {delta.png}
+    \caption{Influence index for all the sectors}
+\end{figure}
+
+From figure NUMBER, we observe that the air transportation sector (sector 1) has the highest dependency index ($\gamma_1 = 0.145$). This means that the air transportation sector
+receives the biggest direct damage from the inoperability of the entire infrastructure system. The sectors of fuel and petroleum grid and rail transportation are respectively the second and third most dependent infrastructures within the system ($\gamma_8 = 0.084$  and  $\gamma_6 = 0.052$). These indices reveal that the transportation sector in general is highly dependent on other infrastructure sectors within the system and subsequently the first sector to be influenced or damaged. Other than the previous three sectors, the remaining infrastructures have low direct dependency on the inoperability of other sectors as all of the remaining indices have a value below $0.03$. Note that the satellite communication and navigation sector (sector 10) has an index of ($\gamma_10 = 0$) which indicates that sector 10 is not actually affected by the inoperability of any other infrastructure within the system.\\
+\\
+As for the influence index, we observe that the electricity sector (sector 2) has the highest influence index ($\delta_2 = 0.138$). This means that the electricity sector
+transmits the biggest direct damage from its inoperability to the entire infrastructure system. The sectors of TLC wired and TLC wireless are respectively the second and third most influential infrastructures within the system ($\delta_4 = 0.098$  and  $\delta_3 = 0.065$). Furthermore, the satellite communication and navigation sector has a relatively high influence index ($\delta_10 = 0.041$), which reveals that inoperability of sector 10 has a sizable effect on the infrastructure system. These indices reveal that the electricity and the communication sectors in general have the largest direct impact on other infrastructure sectors as a result of their inoperability. Other than the previous four sectors, the remaining infrastructures have low direct influence on the inoperability of other sectors as all of the remaining indices have a value below $0.025$.
 
 \subsection*{Question 10}
-\begin{itemize}
-	\item TODO: MATLAB code pending
-	\item plot
-\end{itemize}
+Similar to Question 9, the indices $\overline\gamma_i$ and $\overline\delta_j$ have been calculated using a script and a class in MATLAB.
+\underline{\textbf{Note:}} For the aforementioned script and class, please refer to the appendix. For the MATLAB code, please refer to the script entitled NAME and the class entitled NAME that are uploaded on compass 2g.
+
+The indices $\overline\gamma_i$ and $\overline\delta_j$ for every infrastructure sector are presented in the figures NUMBER AND NUMBER below.
+
+\begin{figure}
+	\label{fig: Gamma bar}
+	\centering
+	\includegraphics[width=0.8\textwidth]
+    {gamma_bar.png}
+    \caption{Overall dependency index for all the sectors}
+\end{figure}
+
+\begin{figure}
+	\label{fig: Delta bar}
+	\centering
+	\includegraphics[width=0.8\textwidth]
+    {delta_bar.png}
+    \caption{Overall influence index for all the sectors}
+\end{figure}
+
+The comparison of the indices $\gamma_j$ and $\overline\gamma_j$ further stresses on the difference
+
+From figure NUMBER, we observe that the air transportation sector (sector 1) has the highest dependency index ($\gamma_1 = 0.145$). This means that the air transportation sector
+receives the biggest direct damage from the inoperability of the entire infrastructure system. The sectors of fuel and petroleum grid and rail transportation are respectively the second and third most dependent infrastructures within the system ($\gamma_8 = 0.084$  and  $\gamma_6 = 0.052$). These indices reveal that the transportation sector in general is highly dependent on other infrastructure sectors within the system and subsequently the first sector to be influenced or damaged. Other than the previous three sectors, the remaining infrastructures have low direct dependency on the inoperability of other sectors as all of the remaining indices have a value below $0.03$. Note that the satellite communication and navigation sector (sector 10) has an index of ($\gamma_10 = 0$) which indicates that sector 10 is not actually affected by the inoperability of any other infrastructure within the system.\\
+\\
+As for the influence index, we observe that the electricity sector (sector 2) has the highest influence index ($\delta_2 = 0.138$). This means that the electricity sector
+transmits the biggest direct damage from its inoperability to the entire infrastructure system. The sectors of TLC wired and TLC wireless are respectively the second and third most influential infrastructures within the system ($\delta_4 = 0.098$  and  $\delta_3 = 0.065$). Furthermore, the satellite communication and navigation sector has a relatively high influence index ($\delta_10 = 0.041$), which reveals that inoperability of sector 10 has a sizable effect on the infrastructure system. These indices reveal that the electricity and the communication sectors in general have the largest direct impact on other infrastructure sectors as a result of their inoperability. Other than the previous four sectors, the remaining infrastructures have low direct influence on the inoperability of other sectors as all of the remaining indices have a value below $0.025$.
+
+Add the S and bigger A
+and then refer to upcoming questions in with the tier stuff.
+
+Sector 10 doesn't have an increase because it is already independent.
 
 \subsection*{Question 11}
 \begin{itemize}
