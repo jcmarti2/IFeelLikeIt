@@ -248,22 +248,21 @@ Sector 10 doesn't have an increase because it is already independent.
 \end{itemize}
 
 \subsection*{Question 13}
-\begin{itemize}
-	\item solve x = Sf
-	\item TODO: Matlab code
-	\item Effect on other infrastructure assets: check vector x
-	\item Further degrade of the already damaged infrastructure: compare x of the infrastructure to f (see if effects increase or decrease)
-	\item Other assets degreaded indirectly: Yes, by having matrix S
-\end{itemize}
-
-\begin{itemize}
-	\item The effect on other infrastructures is given through the matrix $x$.
-	\item Critical infrastructures further degrade the air transportation sector by 3.96 percent.
-	\item Critical infrastructures further degrade the rail transportation sector by 2.81 percent.
-	\item Critical infrastructures further degrade the electricity sector by 0.30 percent.
-	\item Other infrastructures assets are degraded even without being directly affected by the storm. The sector that gets affected the most without a direct damage due to the storm is the fuel and petroleum grid which is degraded by 6.83 percent.
-	\item There are sectors that had little to no damage due to the storm as well. The satellite communication and navigation sector was not influenced by the storm at all while natural gas was only degraded by 0.45 percent.
-\end{itemize}
+The snow storm in this problem describes an external shock ($f$) that impacts some elements of the infrastructure system. The effect causes damage to propagate throughout the infrastructure system. The resulting damage is calculated through Equation \ref{eq: EIO Solution} with the results shown in the table below.
+\begin{table}[H]
+  \centering
+  \caption{Damage from a snow storm}
+    \begin{tabular}{r|rrrrrrrrrr}
+    \toprule
+    Sector Id & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{2} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{6} & \multicolumn{1}{c}{7} & \multicolumn{1}{c}{8} & \multicolumn{1}{c}{9} & \multicolumn{1}{c}{10} \\
+    \midrule
+    Overall Damage      & 0.3896 & 0.1030 & 0.0164 & 0.0129 & 0.0108 & 0.5281 & 0.0151 & 0.0683 & 0.0045 & 0 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab: Snow storm 13}%
+\end{table}%
+The most damaged infrastructure was the rail transportation due to the external shock taking out 50\% of the rail network resulting in $52.81\%$ damage to the sector. The least affected sector was the Satellite Communication and Navigation sector with no damage caused followed by the Natural Gas sector which had $0.45\%$ damage.
+Further damage done to the air transportation sector, electricity sector, and rail transportation sector due to the propagation of damage on the infrastructure system resulted in further degradation of $3.96\%$ for air transportation, $0.30\%$ for electricity, and $2.81\%$ for rail transportation. When only considering the damage propagated throughout the system, the most damaged infrastructure would be the fuel and petroleum grid at $6.83\%$ degradation. The least damaged system does not change from the satellite communication and navigation sector but the second least damaged infrastructure would be the electricity sector ($0.30\%$) rather than the natural gas sector ($0.45\%$).
 
 \subsection*{Question 14}
 \begin{itemize}
