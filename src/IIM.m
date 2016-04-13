@@ -27,6 +27,8 @@ classdef IIM < handle
                                          propagations for k steps
             simulate_monte_carlo_A(f,k,low,up)
             simulate_monte_carlo_f(f,k,low,up)
+            get_fmax_l1(b)
+            get_fmax_l2(b)
     %}
     
     properties (Access = private)
@@ -158,6 +160,36 @@ classdef IIM < handle
             mc_k = obj.replicate_monte_carlo_f(f, k, low, up);
         end
         
+        function [fmax,l,exitflag,output,lambda] = get_fmax_l1(obj,b)
+            %{
+                solve optimization problem solving for vector fmax that has
+                the maximum l1 norm
+                :param b: constraint vector on x(in the form Sf <= b)
+                          this parameter is used for function quadprog
+                :return fmax: fmax vector (max overall damage vector)
+                :return l: l1 norm of fmax
+                :return exitflag: exit flag
+                :return output: output information from solver
+                :return lambda: lagrange multipliers
+            %}
+            [fmax,l,exitflag,output,lambda] = obj.compute_fmax(b, 1);
+        end
+        
+        function [fmax,l,exitflag,output,lambda] = get_fmax_l2(obj,b)
+            %{
+                solve optimization problem solving for vector fmax that has
+                the maximum l2 norm
+                :param b: constraint vector on x(in the form Sf <= b)
+                          this parameter is used for function quadprog
+                :return fmax: fmax vector (max overall damage vector)
+                :return l: l2 norm of fmax
+                :return exitflag: exit flag
+                :return output: output information from solver
+                :return lambda: lagrange multipliers
+            %}
+            [fmax,l,exitflag,output,lambda] = obj.compute_fmax(b, 2);
+        end
+        
     end
         
     methods(Access = private)
@@ -217,8 +249,6 @@ classdef IIM < handle
             x_k = zeros(length(obj.A),k+1);
             % call recursive helper function
             x_k = propagate_damage(obj, x_k, i+1, f, k);
-            %x = obj.get_x(f);
-            %bar3(x_k)
         end
         
         function x_k = propagate_damage(obj, x_k, i, f, k)
@@ -288,6 +318,49 @@ classdef IIM < handle
             low = low/100;
             up = up/100;
             M = (up - low).*M.*rand(size(M)) + (1+low).*M;  
+        end
+        
+        function [fmax,l,exitflag,output,lambda] = compute_fmax(obj, b, type)
+            %{
+                solve optimization problem solving for vector fmax that has
+                the maximum l1 norm
+                :param b: constraint vector on x(in the form Sf <= b)
+                          this parameter is used for function quadprog
+                :param type: type of norm needed (1 for l1, 2 for l2)
+                :return fmax: fmax vector (max overall damage vector)
+                :return l: norm of fmax
+                :return exitflag: exit flag
+                :return output: output information from solver
+                :return lambda: lagrange multipliers
+            %}
+            len = length(obj.A);
+            % check for norm type and use matlab built in solver
+            if type == 1
+                % compute linprog parameters and call function
+                % note that the variables f and A are NOT the properties 
+                % of the class, but rather the input parameter for helper
+                f = -ones(len,1);
+                A = obj.S;
+                Aeq = [];
+                beq = [];
+                lb = zeros(len,1);
+                ub = ones(len,1);
+                [fmax,l,exitflag,output,lambda] = linprog(f, A, b, Aeq, ...
+                    beq, lb, ub);
+            elseif type == 2
+                % compute quadprog parameters and call function
+                % note that the variables f and A are NOT the properties 
+                % of the class, but rather the input parameter for helper
+                H = -1*eye(len,len);
+                f = zeros(len,1);
+                A = obj.S;
+                Aeq = [];
+                beq = [];
+                lb = zeros(len,1);
+                ub = ones(len,1);
+                [fmax,l,exitflag,output,lambda] = quadprog(H, f, A, b, ...
+                    Aeq, beq, lb, ub);
+            end
         end
         
     end
