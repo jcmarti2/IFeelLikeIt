@@ -268,18 +268,22 @@ The snow storm in this problem describes an external shock ($f$) that impacts so
     \toprule
     Sector Id & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{2} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{6} & \multicolumn{1}{c}{7} & \multicolumn{1}{c}{8} & \multicolumn{1}{c}{9} & \multicolumn{1}{c}{10} \\
     \midrule
-    Overall Damage      & 0.3896 & 0.1030 & 0.0164 & 0.0129 & 0.0108 & 0.5281 & 0.0151 & 0.0683 & 0.0045 & 0 \\
+    Overall Damage (\%)      & 38.96 & 10.30 & 1.64 & 1.29 & 1.08 & 52.81 & 1.51 & 6.83 & 0.45 & 0 \\
     \bottomrule
     \end{tabular}%
   \label{tab: Snow storm 13}%
 \end{table}%
-The most damaged infrastructure was the rail transportation due to the external shock taking out 50\% of the rail network resulting in $52.81\%$ damage to the sector. The least affected sector was the Satellite Communication and Navigation sector with no damage caused followed by the Natural Gas sector which had $0.45\%$ damage.
-Further damage done to the air transportation sector, electricity sector, and rail transportation sector due to the propagation of damage on the infrastructure system resulted in further degradation of $3.96\%$ for air transportation, $0.30\%$ for electricity, and $2.81\%$ for rail transportation. When only considering the damage propagated throughout the system, the most damaged infrastructure would be the fuel and petroleum grid at $6.83\%$ degradation. The least damaged system does not change from the satellite communication and navigation sector but the second least damaged infrastructure would be the electricity sector ($0.30\%$) rather than the natural gas sector ($0.45\%$).
+The most damaged infrastructure was the rail transportation due to the external shock taking out 50\% of the rail network, resulting in $52.81\%$ damage to the sector. The least affected sector was the Satellite Communication and Navigation sector with no damage caused, followed by the Natural Gas sector which had $0.45\%$ damage.
+Additional damage done to the air transportation sector, electricity sector, and rail transportation sector due to the propagation of damage through the infrastructure system resulted in further degradation of $3.96\%$ for air transportation, $0.30\%$ for electricity, and $2.81\%$ for rail transportation. When only considering the damage propagated throughout the system, the most damaged infrastructure would be the fuel and petroleum grid at $6.83\%$ degradation. The least damaged system does not change from the satellite communication and navigation sector but the second least damaged infrastructure would be the electricity sector at $0.30\%$ rather than the natural gas sector at $0.45\%$.
 
 \subsection*{Question 14}
-\begin{itemize}
-	\item No
-\end{itemize}
+Matrix $A$ is not an appropriate influence matrix to analyze the effects of a heavy snow storm. This is because matrix $A$ contains many limitations inherent within the matrix itself.\\
+\\
+One of the limitations within the matrix $A$ is that the values in the matrix are for an outage of 6-12 hours and there is no guarantee that the snow storm will last within that time range. Though in the Setola et. al paper, there were additional matrices to account for the different lengths of outages; the matrix $A$ given does not account for these differences\\
+\\
+Another limitation of matrix $A$ consist of how the data to create the values in the matrix were collected. The information was gathered through questionnaires given to experts within each sector asking about how an outage of another sector would influence the operability of their sector (Setola, 2009). There are no means to know the number of experts that were questioned and to objectively assess each answer since every response to the questionnaire was subjective and was given one value ranging from 0 to 0.5 depending on the response of the expert. There is also the inherent assumption that the experts know the direct influence each of the other sectors has on their sector.\\
+\\
+Though the matrix $A$ attempts to account for uncertainty from the answers to the questionnaire using fuzzy numbers, each expert had no idea on how their answers would be translated to a numerical value. Furthermore, the fuzzy numbers that was used to capture the uncertainty within the answers consisted of additional uncertainties about the reliability of the expert, and the confidence level of the expert which again assigns values to subjective answers ($+/-0.005$ to $+/-0.02$) (Setola, 2009).
 
 \subsection*{Question 15}
 \begin{itemize}

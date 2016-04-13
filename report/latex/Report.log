@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.3.30)  12 APR 2016 16:52
-=======
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.3.30)  11 APR 2016 20:44
->>>>>>> origin/master
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.3.30)  12 APR 2016 21:27
 entering extended mode
 **./Report.tex
 (Report.tex
 LaTeX2e <2015/10/01> patch level 2
 Babel <3.9n> and hyphenation patterns for 69 languages loaded.
-<<<<<<< HEAD
 
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ba
 se\article.cls"
@@ -16,11 +11,6 @@ Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ba
 se\size11.clo"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size11.clo"
->>>>>>> origin/master
 File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -35,7 +25,6 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\co
 mmath\commath.sty"
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ba
@@ -44,18 +33,10 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\am
 smath\amsmath.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\commath\commath.sty
-" ("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ifthen.sty"
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-) ("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.s
-ty"
->>>>>>> origin/master
 Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
-<<<<<<< HEAD
 
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\am
 smath\amstext.sty"
@@ -63,18 +44,10 @@ Package: amstext 2000/06/29 v2.01
 
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\am
 smath\amsgen.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.sty
-"
-Package: amstext 2000/06/29 v2.01
- ("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty
-"
->>>>>>> origin/master
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks14
 \ex@=\dimen103
 ))
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\am
 smath\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
@@ -82,13 +55,6 @@ Package: amsbsy 1999/11/29 v1.2d
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\am
 smath\amsopn.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
-Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen104
-) ("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsopn.st
-y"
->>>>>>> origin/master
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count87
@@ -129,7 +95,6 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 ))
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\gr
 aphics\graphicx.sty"
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
@@ -149,31 +114,10 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00
 miktex\graphics.cfg"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.s
-ty"
-Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
-
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.sty
-"
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks19
-)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.s
-ty"
-Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
-
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\graphics.c
-fg"
->>>>>>> origin/master
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: pdftex.def on input line 94.
 
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\pd
 ftex-def\pdftex.def"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
@@ -184,18 +128,6 @@ Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\generic\
 oberdiek\ltxcmds.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.d
-ef"
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infwarer
-r.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.
-sty"
->>>>>>> origin/master
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count99
@@ -203,7 +135,6 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen112
 \Gin@req@width=\dimen113
 )
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ba
 se\fontenc.sty"
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
@@ -229,31 +160,6 @@ Package ifvtex Info: VTeX not detected.
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\generic\
 ifxetex\ifxetex.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\fontenc.sty"
-Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
-
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t1enc.def"
-File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
-))
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.s
-ty"
-Package: geometry 2010/09/12 v5.6 Page Geometry
-
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.st
-y"
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.s
-ty"
-Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
-Package ifvtex Info: VTeX not detected.
-)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.s
-ty"
->>>>>>> origin/master
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count100
@@ -269,17 +175,10 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen121
 \Gm@dimlist=\toks20
 
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ge
 ometry\geometry.cfg"))
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\li
 stings\listings.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.c
-fg"))
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.s
-ty"
->>>>>>> origin/master
 \lst@mode=\count103
 \lst@gtempboxa=\box28
 \lst@token=\toks21
@@ -293,43 +192,25 @@ ty"
 \lst@lineno=\count108
 \lst@maxwidth=\dimen125
 
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\li
 stings\lstmisc.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.st
-y"
->>>>>>> origin/master
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 \c@lstnumber=\count109
 \lst@skipnumbers=\count110
 \lst@framebox=\box29
 )
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\li
 stings\listings.cfg"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.c
-fg"
->>>>>>> origin/master
 File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\bl
 indtext\blindtext.sty"
 Package: blindtext 2012/01/06 V2.0 blindtext-Package
 
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\to
 ols\xspace.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\blindtext\blindtext
-.sty"
-Package: blindtext 2012/01/06 V2.0 blindtext-Package
-
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\xspace.sty"
->>>>>>> origin/master
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 )
 \c@blindtext=\count111
@@ -350,13 +231,9 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@randommax=\count126
 \c@blind@pangramcount=\count127
 \c@blind@pangrammax=\count128
-<<<<<<< HEAD
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fl
 oat\float.sty"
-=======
-) ("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\float\float.sty"
->>>>>>> origin/master
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count129
 \float@exts=\toks22
@@ -364,7 +241,6 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks23
 \@floatcapt=\box31
 )
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\gr
 aphics\lscape.sty"
 Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
@@ -375,26 +251,12 @@ Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
 
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00
 miktex\color.cfg"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\lscape.sty
-"
-Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
-)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty"
-Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
->>>>>>> origin/master
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 142.
 )
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\bo
 oktabs\booktabs.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\booktabs\booktabs.s
-ty"
->>>>>>> origin/master
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \heavyrulewidth=\dimen126
 \lightrulewidth=\dimen127
@@ -413,13 +275,9 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \@thisruleclass=\count132
 \@lastruleclass=\count133
 \@thisrulewidth=\dimen138
-<<<<<<< HEAD
 )
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\to
 ols\bm.sty"
-=======
-) ("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\bm.sty"
->>>>>>> origin/master
 Package: bm 2014/10/28 v1.1c Bold Symbol Support (DPC/FMi)
 \symboldoperators=\mathgroup4
 \symboldletters=\mathgroup5
@@ -431,13 +289,8 @@ Package color Info: Redefining color green on input line 17.
 Package color Info: Redefining color black on input line 18.
 Package color Info: Redefining color blue on input line 19.
 
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\li
 stings\lstlang1.sty"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.s
-ty"
->>>>>>> origin/master
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 ) (Report.aux)
 \openout1 = `Report.aux'.
@@ -455,13 +308,8 @@ LaTeX Font Info:    ... okay on input line 39.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
 LaTeX Font Info:    ... okay on input line 39.
 
-<<<<<<< HEAD
 ("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\context\
 base\supp-pdf.mkii"
-=======
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mki
-i"
->>>>>>> origin/master
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count134
 \scratchdimen=\dimen139
@@ -527,12 +375,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 67--74
 
 [1
 
-<<<<<<< HEAD
 {C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.m
 ap}]
-=======
-{C:/Users/Paul/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
->>>>>>> origin/master
 Underfull \hbox (badness 10000) in paragraph at lines 79--85
 
  []
@@ -650,53 +494,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 228--233
  []
 
 [7 <../figures/gamma_bar.png (PNG copy)>]
-<<<<<<< HEAD
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 241.
-
-
-("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ba
-se\omscmr.fd"
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 241.
- [8 <../figures/delta_bar.png (PNG copy)>]
-Overfull \hbox (36.52303pt too wide) in paragraph at lines 255--263
- [][][] 
- []
-
-[9] [10] (Report.aux) ) 
-Here is how much of TeX's memory you used:
- 4271 strings out of 493634
- 60110 string characters out of 3128711
- 161399 words of memory out of 3000000
- 7585 multiletter control sequences out of 15000+200000
- 20875 words of font info for 54 fonts, out of 3000000 for 9000
- 1025 hyphenation exceptions out of 8191
- 34i,10n,40p,928b,246s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.
-9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1095.pk> <C:\Users\Jimmy.DESKTOP-9P6V3
-N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1095.pk> <C:
-\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\
-ec\dpi600\ecbx1200.pk> <C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9
-\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Users\Jimmy.DESKTOP-9P6V3N
-1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\
-Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\e
-c\dpi600\ecrm1200.pk> <C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9\
-fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1728.pk><C:/Users/Jimmy.DESKTOP-9P6V3N1/
-AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:
-/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmmi10.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Jimmy.DESKTOP-9
-P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10
-.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Jimmy.DES
-KTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-msy10.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Report.pdf (10 pages, 226921 bytes).
-=======
 Underfull \hbox (badness 10000) in paragraph at lines 240--251
 
  []
@@ -725,43 +522,60 @@ Underfull \hbox (badness 10000) in paragraph at lines 240--251
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 252.
 
 
-("C:\Users\Paul\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+("C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ba
+se\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 252.
+ [9]
+Underfull \hbox (badness 10000) in paragraph at lines 280--287
 
-[9] [10] (Report.aux) ) 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--287
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--287
+
+ []
+
+[10] [11] (Report.aux) ) 
 Here is how much of TeX's memory you used:
- 4270 strings out of 493634
- 58577 string characters out of 3135647
+ 4271 strings out of 493634
+ 60110 string characters out of 3128711
  161399 words of memory out of 3000000
- 7584 multiletter control sequences out of 15000+200000
+ 7585 multiletter control sequences out of 15000+200000
  20875 words of font info for 54 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  34i,10n,40p,928b,246s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Paul\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour
-\jknappen\ec\dpi600\ecbx1095.pk> <C:\Users\Paul\AppData\Local\MiKTeX\2.9\fonts\
-pk\ljfour\jknappen\ec\dpi600\ecti1095.pk> <C:\Users\Paul\AppData\Local\MiKTeX\2
-.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\Paul\AppData\Local
-\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Users\Paul\AppD
-ata\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\Users\
-Paul\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <
-C:\Users\Paul\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1
-728.pk><C:/Users/Paul/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmex10.pfb><C:/Users/Paul/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmmi10.pfb><C:/Users/Paul/AppData/Local/Programs/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Paul/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Paul/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Pau
-l/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:
-/Users/Paul/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-sy10.pfb><C:/Users/Paul/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy8.pfb>
-Output written on Report.pdf (10 pages, 226652 bytes).
->>>>>>> origin/master
+ <C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2
+.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1095.pk> <C:\Users\Jimmy.DESKTOP-9P6V
+3N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1095.pk> <C
+:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen
+\ec\dpi600\ecbx1200.pk> <C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.
+9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Users\Jimmy.DESKTOP-9P6V3
+N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:
+\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\
+ec\dpi600\ecrm1200.pk> <C:\Users\Jimmy.DESKTOP-9P6V3N1\AppData\Local\MiKTeX\2.9
+\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1728.pk><C:/Users/Jimmy.DESKTOP-9P6V3N1
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C
+:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmmi10.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Jimmy.DESKTOP-
+9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib1
+0.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local
+/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Jimmy.DE
+SKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb><C:/Users/Jimmy.DESKTOP-9P6V3N1/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on Report.pdf (11 pages, 231299 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
+ 272 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
