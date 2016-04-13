@@ -180,19 +180,19 @@ The indices $\gamma_i$ and $\delta_j$ have been calculated using a script and a 
 The indices $\gamma_i$ and $\delta_j$ for every infrastructure sector are presented in the figures NUMBER AND NUMBER below.
 
 \begin{figure}
-	\label{fig: Gamma}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {gamma.png}
     \caption{Dependency index for all the sectors}
+    \label{fig: Gamma}
 \end{figure}
 
 \begin{figure}
-	\label{fig: Delta}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {delta.png}
     \caption{Influence index for all the sectors}
+    \label{fig: Delta}
 \end{figure}
 
 From figure NUMBER, we observe that the air transportation sector (sector 1) has the highest dependency index ($\gamma_1 = 0.145$). This means that the air transportation sector
@@ -208,19 +208,19 @@ Similar to Question 9, the indices $\overline\gamma_i$ and $\overline\delta_j$ h
 The indices $\overline\gamma_i$ and $\overline\delta_j$ for every infrastructure sector are presented in the figures NUMBER AND NUMBER below.
 
 \begin{figure}
-	\label{fig: Gamma bar}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {gamma_bar.png}
     \caption{Overall dependency index for all the sectors}
+    \label{fig: Gamma bar}
 \end{figure}
 
 \begin{figure}
-	\label{fig: Delta bar}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {delta_bar.png}
     \caption{Overall influence index for all the sectors}
+    \label{fig: Delta bar}
 \end{figure}
 
 The comparison of the indices $\gamma_j$ and $\overline\gamma_j$ further stresses on the difference
@@ -286,26 +286,92 @@ Another limitation of matrix $A$ consist of how the data to create the values in
 Though the matrix $A$ attempts to account for uncertainty from the answers to the questionnaire using fuzzy numbers, each expert had no idea on how their answers would be translated to a numerical value. Furthermore, the fuzzy numbers that was used to capture the uncertainty within the answers consisted of additional uncertainties about the reliability of the expert, and the confidence level of the expert which again assigns values to subjective answers ($+/-0.005$ to $+/-0.02$) (Setola, 2009).
 
 \subsection*{Question 15}
-\begin{itemize}
-	\item Recursion code MATLAB TODO
-	\item paul took picture
-\end{itemize}
+Question 4 presented the analytical solution $x=Sf$ for the overall propagation of damage of the infrastructure system. This solution was obtained using properties of linear algebra. \\
+\\
+This solution can be supported by studying the step-by-step propagation of damage of an infrastructure system. The damage propagation starts from zero-damage state, continues by absorbing the external impact $f$, and recursively computes additional damage derived from the preceding step (the additional damage from the previous damage). After a number of damage propagation steps, the state of the system should match that found using the equation presented in Question 4. \\
+\\
+A recursive function was implemented in MATLAB for this purpose. The source code can be found in the Appendix and in the attached files, along with the documentation that gives instructions for running it. Figure \ref{fig: Damage Propagation 1-10} presents 10 tiers of damage propagation, starting from the $0_{th}$ tier (initial conditions with no damage) to the $10_{th}$ tier. Similarly, Figure \ref{fig: Incremental Damage Propagation 1-10} presents the incremental damage on each sector after each damage propagation step. \\
+\\
+Note that the damage propagation steps presented in Figure \ref{fig: Damage Propagation 1-10} converge to the same values found in Question 13 after a $k$ number of steps. This is further explained by the damage increments after a certain number of propagation steps approaching zero, as seen in Figure \ref{fig: Incremental Damage Propagation 1-10}. The system damage at $k=0$ is zero, but approaches to the solution from $x=Sf$ after a number of tiers, which may vary from sector to sector. That is, some sectors may converge to faster than others. Initially the damage increments are generally large, but approach zero after the solution from $x=Sf$ is approached. This is not a coincidence, it is purely a property of linear algebra: $(I-A)^{-1}f=Sf$ is the damage propagation at an infinite number of propagation steps. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]
+    {damage_propagation_1_5.png}
+	\includegraphics[width=1\textwidth]
+    {damage_propagation_6_10.png}
+    \caption{Ten tiers of damage propagation for sectors 1 through 10.}
+    \label{fig: Damage Propagation 1-10}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]
+    {incremental_damage_propagation_1_5.png}
+	\includegraphics[width=1\textwidth]
+    {incremental_damage_propagation_6_10.png}
+    \caption{Ten tiers of incremental damage propagation for sectors 1 through 10.}
+    \label{fig: Incremental Damage Propagation 1-10}
+\end{figure}
 
 \subsection*{Question 16}
-\begin{itemize}
-	\item monte carlo UNCERTAINTY ON A
-\end{itemize}
+One thousand replications of Monte Carlo simulation were performed for modeling uncertainty in matrix $A$. Specifically, noise was added to the elements of matrix $A$ using a uniform distribution that ranged from $-15\%$ to $-15\%$ of each value. That is, each element $a_{ij}$ of matrix $A$ was updated using
+\begin{align}
+	a_{ij} = a_{ij} \cdot (100\% - 15\%) + U(0,1) \cdot a_{ij} \cdot (30 \%).
+	\label{eq: Noise}
+\end{align} 
+The results of the simulation can be found as histograms of $100$ bins in Figure \ref{fig: Histograms Monte Carlo A}. Important statistical descriptors can be found in Figure \ref{fig: Box Plots Monte Carlo A} as box plots. \\
+\\
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth, height=10cm]
+    {monte_carlo_A_1000_100.png}
+    \caption{Histograms of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
+    \label{fig: Histograms Monte Carlo A}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]
+    {monte_carlo_A_1000_100_box_plot.png}
+    \caption{Box plots of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
+    \label{fig: Box Plots Monte Carlo A}
+\end{figure}
+From Figure \ref{fig: Box Plots Monte Carlo A} we observe that it is not trivial to determine whether the overall damage propagation follows a uniform distribution, a normal distribution, or some other distribution. This is expected, as the influence of the uncertainty in each sector may influence a given sector may vary. 
 
 \subsection*{Question 17}
-\begin{itemize}
-	\item monte carlo UNCERTAINTY ON F
-\end{itemize}
+One thousand replications of Monte Carlo simulation were performed for modeling uncertainty in vector $f$. Specifically, noise was added to the elements of matrix $f$ using a uniform distribution that ranged from $-15\%$ to $-15\%$ of each value using Equation \ref{eq: Noise}. \\
+\\ 
+The results of the simulation can be found as histograms (of $100$ bins) in Figure \ref{fig: Histograms Monte Carlo f} and box plots in Figure \ref{fig: Box Plots Monte Carlo f}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth, height=10cm]
+    {damage_bounds_uncertainty_A.png}
+    \caption{Bounds on overall system damage with a $-15\%$ to $15\%$ uniformly distributed uncertainty in $A$.}
+    \label{fig: Damage Bounds A}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]
+    {damage_bounds_uncertainty_f.png}
+    \caption{Bounds on overall system damage with a $-15\%$ to $15\%$ uniformly distributed uncertainty in $f$.}
+    \label{fig: Damage Bounds f}
+\end{figure}
+
 
 \subsection*{Question 18}
-\begin{itemize}
-	\item HIGH LOW METHOD
-	\item write function that adds noise with certain g
-\end{itemize}
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth, height=10cm]
+    {monte_carlo_A_1000_100.png}
+    \caption{Histograms of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
+    \label{fig: Histograms Monte Carlo A}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]
+    {monte_carlo_A_1000_100_box_plot.png}
+    \caption{Box plots of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
+    \label{fig: Box Plots Monte Carlo A}
+\end{figure}
 
 \subsection*{Question 19}
 
