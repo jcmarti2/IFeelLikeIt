@@ -180,19 +180,19 @@ The indices $\gamma_i$ and $\delta_j$ have been calculated using a script and a 
 The indices $\gamma_i$ and $\delta_j$ for every infrastructure sector are presented in the figures NUMBER AND NUMBER below.
 
 \begin{figure}
+	\label{fig: Gamma}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {gamma.png}
     \caption{Dependency index for all the sectors}
-    \label{fig: Gamma}
 \end{figure}
 
 \begin{figure}
+	\label{fig: Delta}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {delta.png}
     \caption{Influence index for all the sectors}
-    \label{fig: Delta}
 \end{figure}
 
 From figure NUMBER, we observe that the air transportation sector (sector 1) has the highest dependency index ($\gamma_1 = 0.145$). This means that the air transportation sector
@@ -208,19 +208,19 @@ Similar to Question 9, the indices $\overline\gamma_i$ and $\overline\delta_j$ h
 The indices $\overline\gamma_i$ and $\overline\delta_j$ for every infrastructure sector are presented in the figures NUMBER AND NUMBER below.
 
 \begin{figure}
+	\label{fig: Gamma bar}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {gamma_bar.png}
     \caption{Overall dependency index for all the sectors}
-    \label{fig: Gamma bar}
 \end{figure}
 
 \begin{figure}
+	\label{fig: Delta bar}
 	\centering
 	\includegraphics[width=0.8\textwidth]
     {delta_bar.png}
     \caption{Overall influence index for all the sectors}
-    \label{fig: Delta bar}
 \end{figure}
 
 The comparison of the indices $\gamma_j$ and $\overline\gamma_j$ further stresses on the difference
@@ -268,152 +268,41 @@ The snow storm in this problem describes an external shock ($f$) that impacts so
     \toprule
     Sector Id & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{2} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{6} & \multicolumn{1}{c}{7} & \multicolumn{1}{c}{8} & \multicolumn{1}{c}{9} & \multicolumn{1}{c}{10} \\
     \midrule
-    Overall Damage (\%)      & 38.96 & 10.30 & 1.64 & 1.29 & 1.08 & 52.81 & 1.51 & 6.83 & 0.45 & 0 \\
+    Overall Damage      & 0.3896 & 0.1030 & 0.0164 & 0.0129 & 0.0108 & 0.5281 & 0.0151 & 0.0683 & 0.0045 & 0 \\
     \bottomrule
     \end{tabular}%
   \label{tab: Snow storm 13}%
 \end{table}%
-The most damaged infrastructure was the rail transportation due to the external shock taking out 50\% of the rail network, resulting in $52.81\%$ damage to the sector. The least affected sector was the Satellite Communication and Navigation sector with no damage caused, followed by the Natural Gas sector which had $0.45\%$ damage.
-Additional damage done to the air transportation sector, electricity sector, and rail transportation sector due to the propagation of damage through the infrastructure system resulted in further degradation of $3.96\%$ for air transportation, $0.30\%$ for electricity, and $2.81\%$ for rail transportation. When only considering the damage propagated throughout the system, the most damaged infrastructure would be the fuel and petroleum grid at $6.83\%$ degradation. The least damaged system does not change from the satellite communication and navigation sector but the second least damaged infrastructure would be the electricity sector at $0.30\%$ rather than the natural gas sector at $0.45\%$.
+The most damaged infrastructure was the rail transportation due to the external shock taking out 50\% of the rail network resulting in $52.81\%$ damage to the sector. The least affected sector was the Satellite Communication and Navigation sector with no damage caused followed by the Natural Gas sector which had $0.45\%$ damage.
+Further damage done to the air transportation sector, electricity sector, and rail transportation sector due to the propagation of damage on the infrastructure system resulted in further degradation of $3.96\%$ for air transportation, $0.30\%$ for electricity, and $2.81\%$ for rail transportation. When only considering the damage propagated throughout the system, the most damaged infrastructure would be the fuel and petroleum grid at $6.83\%$ degradation. The least damaged system does not change from the satellite communication and navigation sector but the second least damaged infrastructure would be the electricity sector ($0.30\%$) rather than the natural gas sector ($0.45\%$).
 
 \subsection*{Question 14}
-Matrix $A$ is not an appropriate influence matrix to analyze the effects of a heavy snow storm. This is because matrix $A$ contains many limitations inherent within the matrix itself.\\
-\\
-One of the limitations within the matrix $A$ is that the values in the matrix are for an outage of 6-12 hours and there is no guarantee that the snow storm will last within that time range. Though in the Setola et. al paper, there were additional matrices to account for the different lengths of outages; the matrix $A$ given does not account for these differences\\
-\\
-Another limitation of matrix $A$ consist of how the data to create the values in the matrix were collected. The information was gathered through questionnaires given to experts within each sector asking about how an outage of another sector would influence the operability of their sector (Setola, 2009). There are no means to know the number of experts that were questioned and to objectively assess each answer since every response to the questionnaire was subjective and was given one value ranging from 0 to 0.5 depending on the response of the expert. There is also the inherent assumption that the experts know the direct influence each of the other sectors has on their sector.\\
-\\
-Though the matrix $A$ attempts to account for uncertainty from the answers to the questionnaire using fuzzy numbers, each expert had no idea on how their answers would be translated to a numerical value. Furthermore, the fuzzy numbers that was used to capture the uncertainty within the answers consisted of additional uncertainties about the reliability of the expert, and the confidence level of the expert which again assigns values to subjective answers ($+/-0.005$ to $+/-0.02$) (Setola, 2009).
+\begin{itemize}
+	\item No
+\end{itemize}
 
 \subsection*{Question 15}
-Question 4 presented the analytical solution $x=Sf$ for the overall propagation of damage of the infrastructure system. This solution was obtained using properties of linear algebra. \\
-\\
-This solution can be supported by studying the step-by-step propagation of damage of an infrastructure system. The damage propagation starts from zero-damage state, continues by absorbing the external impact $f$, and recursively computes additional damage derived from the preceding step (the additional damage from the previous damage). After a number of damage propagation steps, the state of the system should match that found using the equation presented in Question 4. \\
-\\
-A recursive function was implemented in MATLAB for this purpose. The source code can be found in the Appendix and in the attached files, along with the documentation that gives instructions for running it. Figure \ref{fig: Damage Propagation 1-10} presents 10 tiers of damage propagation, starting from the $0_{th}$ tier (initial conditions with no damage) to the $10_{th}$ tier. Similarly, Figure \ref{fig: Incremental Damage Propagation 1-10} presents the incremental damage on each sector after each damage propagation step. \\
-\\
-Note that the damage propagation steps presented in Figure \ref{fig: Damage Propagation 1-10} converge to the same values found in Question 13 after a $k$ number of steps. This is further explained by the damage increments after a certain number of propagation steps approaching zero, as seen in Figure \ref{fig: Incremental Damage Propagation 1-10}. The system damage at $k=0$ is zero, but approaches to the solution from $x=Sf$ after a number of tiers, which may vary from sector to sector. That is, some sectors may converge to faster than others. Initially the damage increments are generally large, but approach zero after the solution from $x=Sf$ is approached. This is not a coincidence, it is purely a property of linear algebra: $(I-A)^{-1}f=Sf$ is the damage propagation at an infinite number of propagation steps. 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]
-    {damage_propagation_1_5.png}
-	\includegraphics[width=1\textwidth]
-    {damage_propagation_6_10.png}
-    \caption{Ten tiers of damage propagation for sectors 1 through 10.}
-    \label{fig: Damage Propagation 1-10}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]
-    {incremental_damage_propagation_1_5.png}
-	\includegraphics[width=1\textwidth]
-    {incremental_damage_propagation_6_10.png}
-    \caption{Ten tiers of incremental damage propagation for sectors 1 through 10.}
-    \label{fig: Incremental Damage Propagation 1-10}
-\end{figure}
+\begin{itemize}
+	\item Recursion code MATLAB TODO
+	\item paul took picture
+\end{itemize}
 
 \subsection*{Question 16}
-One thousand replications of Monte Carlo simulation were performed for modeling uncertainty in matrix $A$. Specifically, noise was added to the elements of matrix $A$ using a uniform distribution that ranged from $-15\%$ to $-15\%$ of each value. That is, each element $a_{ij}$ of matrix $A$ was updated using
-\begin{align}
-	a_{ij} = a_{ij} \cdot (100\% - 15\%) + U(0,1) \cdot a_{ij} \cdot (30 \%).
-	\label{eq: Noise}
-\end{align} 
-The results of the simulation can be found as histograms of $100$ bins in Figure \ref{fig: Histograms Monte Carlo A}. Important statistical descriptors can be found in Figure \ref{fig: Box Plots Monte Carlo A} as box plots. \\
-\\
-\begin{figure}
-	\centering
-	\includegraphics[width=1\textwidth, height=10cm]
-    {monte_carlo_A_1000_100.png}
-    \caption{Histograms of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
-    \label{fig: Histograms Monte Carlo A}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=1\textwidth]
-    {monte_carlo_A_1000_100_box_plot.png}
-    \caption{Box plots of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
-    \label{fig: Box Plots Monte Carlo A}
-\end{figure}
-From Figure \ref{fig: Box Plots Monte Carlo A} we observe that it is not trivial to determine whether the overall damage propagation follows a uniform distribution, a normal distribution, or some other distribution. This is expected, as the influence of the uncertainty in each sector may influence a given sector may vary. 
+\begin{itemize}
+	\item monte carlo UNCERTAINTY ON A
+\end{itemize}
 
 \subsection*{Question 17}
-One thousand replications of Monte Carlo simulation were performed for modeling uncertainty in vector $f$. Specifically, noise was added to the elements of matrix $f$ using a uniform distribution that ranged from $-15\%$ to $-15\%$ of each value using Equation \ref{eq: Noise}. \\
-\\ 
-The results of the simulation can be found as histograms (of $100$ bins) in Figure \ref{fig: Histograms Monte Carlo f} and box plots in Figure \ref{fig: Box Plots Monte Carlo f}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth, height=10cm]
-    {damage_bounds_uncertainty_A.png}
-    \caption{Bounds on overall system damage with a $-15\%$ to $15\%$ uniformly distributed uncertainty in $A$.}
-    \label{fig: Damage Bounds A}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]
-    {damage_bounds_uncertainty_f.png}
-    \caption{Bounds on overall system damage with a $-15\%$ to $15\%$ uniformly distributed uncertainty in $f$.}
-    \label{fig: Damage Bounds f}
-\end{figure}
-
+\begin{itemize}
+	\item monte carlo UNCERTAINTY ON F
+\end{itemize}
 
 \subsection*{Question 18}
-\begin{figure}
-	\centering
-	\includegraphics[width=1\textwidth, height=10cm]
-    {monte_carlo_A_1000_100.png}
-    \caption{Histograms of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
-    \label{fig: Histograms Monte Carlo A}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=1\textwidth]
-    {monte_carlo_A_1000_100_box_plot.png}
-    \caption{Box plots of Monte Carlo simulation on overall damage propagation for each sector with uncertainty in $A$.}
-    \label{fig: Box Plots Monte Carlo A}
-\end{figure}
+\begin{itemize}
+	\item HIGH LOW METHOD
+	\item write function that adds noise with certain g
+\end{itemize}
 
 \subsection*{Question 19}
 
-\section*{Electricity Utilities}
-\subsection*{Question 20}
-There are three sets that compose the decision variables, which are:
-\begin{align*}
-	& x_{it},  \forall  i \in \{1,2,3,4,5,6,7,8,9\}, \forall  t \in \{1,2,3,4,5,6\}\\
-	& y_i,  \forall  i \in \{5,6,7,8\}\\
-	& z_k,  \forall  k \in \{1,2,3\}
-\end{align*}
-where $x_{it}$ is the energy (MW) produced by power plant $i$ during load block $t$,
-$y_i$ is the design capacity of new power plant $i$ (MW), and $z_k$ is the implementation rate of demand side management program $k$, such that $z_k \in  [0,1]$. This amounts to 61 decision variables. 
-\begin{itemize}
-	\item The decision variable vector NAMELESS will be a column vector with dimensions 61 x 1. OR the decision variable vector lives in the space of $R^{61}$
-\end{itemize}
-
-\subsection*{Question 21}
-The expression for the objective function which minimizes the total global warming potential is:
-\begin{align*}
-	\min \sum_{i=1}^{9}\sum_{t=1}^{6} g_{i}x_{it}n_{t}
-\end{align*}
-where $g_{i}$ is the global potential (kg $CO_2$ eq/MWh) from plant $i$, and $n_{t}$ is the number of hours in load block $t$ (MW).\\
-Note that this expression will result in the minimum global warming potential in the units of kg of $CO_2$ eq, instead of tons of $CO_2$ eq. The unit conversion does not affect the solution from the optimization problem. We will convert the units of the solution accordingly.
-
-\subsection*{Question 22}
-The expression for the objective function which minimizes the total global warming potential is:
-\begin{align*}
-	\min \sum_{i=1}^{9}\sum_{t=1}^{6} \bar{c_{i}}^{v}x_{it}n_{t} + \sum_{i=1}^{9}\bar{c_{i}}^{c}y_{i}\cdot 10^3 + \sum_{k=1}^{3}\sum_{t=1}^{6}\bar{c_{k}}^{d}z_{k}s_{kt} ^{\text{\textit{max}}}n_{t}
-\end{align*}
-where,
-\begin{itemize}
-	\item $\bar{c_{i}}^{v}$ is the expected variable cost associated with operating plant $i$ (\$/MWh)
-	\item $\bar{c_{i}}^{c}$	is the expected annualized capital cost of  plant $i$ (\$/kW). Note that we multiplied the values of the design capacities of new power plants, $y_i$ by a factor of $10^3$ to convert the units from MW to kW
-	\item $\bar{c_{k}}^{d}$ is the expected cost of implementing demand side management program $k$ (\$/MWh)
-	\item $s_{kt} ^{max}$ is the maximum energy savings available in load block $t$ from demand side management program $k$ (MW)
-\end{itemize}
-
-\subsection*{Question 23}
-\begin{align*}
-	\sum_{i=1}^{9}x_{it} + \sum_{k=1}^{3}z_{k}s_{kt}^{\text{\textit{max}}}\geq l_{t},   \forall t\in{}\{1,2,3,4,5,6\}\\
-\end{align*}
-There are six constraints
-
-\end{document} 
+\end{document}
