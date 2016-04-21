@@ -398,7 +398,7 @@ where $g_{i}$ is the global potential (kg $CO_2$ eq/MWh) from plant $i$, and $n_
 Note that this expression will result in the minimum global warming potential in the units of kg of $CO_2$ eq, instead of tons of $CO_2$ eq. The unit conversion does not affect the solution from the optimization problem. We will convert the units of the solution accordingly.
 
 \subsection*{Question 22}
-The expression for the objective function which minimizes the total global warming potential is:
+The expression for the objective function which minimizes the expected annual cost of operating the utility is:
 \begin{align*}
 	\min \sum_{i=1}^{9}\sum_{t=1}^{6} \bar{c_{i}}^{v}x_{it}n_{t} + \sum_{i=1}^{9}\bar{c_{i}}^{c}y_{i}\cdot 10^3 + \sum_{k=1}^{3}\sum_{t=1}^{6}\bar{c_{k}}^{d}z_{k}s_{kt} ^{\text{\textit{max}}}n_{t}
 \end{align*}
@@ -411,9 +411,85 @@ where,
 \end{itemize}
 
 \subsection*{Question 23}
+The written expression for the load constraints for the power plants is:
 \begin{align*}
 	\sum_{i=1}^{9}x_{it} + \sum_{k=1}^{3}z_{k}s_{kt}^{\text{\textit{max}}}\geq l_{t},   \forall t\in{}\{1,2,3,4,5,6\}\\
 \end{align*}
-There are six constraints
+where $l_{t}$ is the power load in load block $t$ (MW). This constraint forces the electricity utilities to produce at least the required power needed for each load block. Since this constraint applies to each load block, there are six constraints in total.
+
+\subsection*{Question 24}
+The expression for the instantaneous capacity constraints of the power plants is:
+\begin{align*}
+	x_{it} \leq (1 - o_{i}^{u})x_{i}^{\text{\textit{max}}},	\forall i \in{} \{1,2,3,4,5,6,7,8,9\}, \forall t\in{}\{1,2,3,4,5,6\}\\
+\end{align*}
+where $o_{i}^{u}$ is the unplanned outage rate with values ($\in{} [0,1]$). 
+CHECK THESE STATEMENTS!!! (see which one we should keep)
+\begin{itemize}
+	\item This constraint determines the time during which the plant is operational, adjusting the maximum capacity of the plant accordingly and thus forcing the energy produced to never exceed this capacity.
+	\item This is an attempt to account for the periods of time where there is no power coming from a power plant $i$ due to an unexpected outage 
+\end{itemize}
+This constraint applies to every decision variable $x_{it}$ so there are fifty-four constraints.
+
+\subsection*{Question 25}
+The expression for the minimum generation constraints is given by:
+\begin{align*}
+	x_{it} \geq x_{i}^{\text{\textit{min}}},	\forall i \in{} \{1,2,3,4,5,6,7,8,9\}, \forall t\in{}\{1,2,3,4,5,6\}\\
+\end{align*}
+where $x_{i}^{min}$ is the minimum capacity of the power plant. This constraint makes it so that the energy produced in power plant $i$ is never less than the minimum amount of power that the plant needs to generate. This constraint holds true for all power plants and during all load blocks ($\forall i \in{} \{1,2,3,4,5,6,7,8,9\},  \forall t \in{} \{1,2,3,4,5,6\}$), therefore there are fifty-four constraints.
+
+\subsection*{Question 26}
+New generation bounds is similar to the instantaneous capacity constraints except for the power plants that are newly built. Basically, the energy produced in power plant $i$ during load block $t$ must be less than or equal to the the derated capacity for each plant caused by unplanned outages: $(1-o_{i}^{u})y_{i}$, where $y_{i}$ is the design capacity of power plant $i$ (MW)($\forall i \in{} \{5,6,7,8\},  \forall t \in{} \{1,2,3,4,5,6\}$)\\
+\\
+Additionally, the new generation bounds make sure that the design capacity of the power plant is less than or equal to the maximum capacity that can be built with the following expression:
+\begin{align*}
+	y_{i} \leq x_{i}^{\text{\textit{max}}}, \forall i \in{} \{5,6,7,8\}
+\end{align*}
+
+\subsection*{Question 27}
+The complete optimization problem for minimizing expected costs subject to the production constraints is:
+\begin{align*}
+	\min & \sum_{i=1}^{9}\sum_{t=1}^{6} \bar{c_{i}}^{v}x_{it}n_{t} + \sum_{i=1}^{9}\bar{c_{i}}^{c}y_{i}\cdot 10^3 + \sum_{k=1}^{3}\sum_{t=1}^{6}\bar{c_{k}}^{d}z_{k}s_{kt} ^{\text{\textit{max}}}n_{t}\\
+	s.t. & \\
+	& \sum_{i=1}^{9}x_{it} + \sum_{k=1}^{3}z_{k}s_{kt}^{\text{\textit{max}}}\geq l_{t},   \forall t\in{}\{1,2,3,4,5,6\}\\
+	& x_{it} \leq (1 - o_{i}^{u})x_{i}^{\text{\textit{max}}},	\forall i \in{} \{1,2,3,4,5,6,7,8,9\}, \forall t\in{}\{1,2,3,4,5,6\}\\
+	& \sum_{t=1}^{6}n_{t}x_{it} - (1 - o_{i}^{p})8766x_{i}^{\text{\textit{max}}} \leq 0, \forall i \in{} \{1,2,3,4,9\}\\
+	& \sum_{t=1}^{6}n_{t}x_{it} - (1 - o_{i}^{p})8766y_{i} \leq 0, \forall i \in{} \{5,6,7,8\}\\
+	& x_{it} \geq x_{i}^{\text{\textit{min}}},	\forall i \in{} \{1,2,3,4,5,6,7,8,9\}, \forall t\in{}\{1,2,3,4,5,6\}\\
+	& z_{k} \geq 0, \forall k \in{} \{1,2,3\}\\
+	& z_{k} \leq 1, \forall k \in{} \{1,2,3\}\\
+	& x_{it} \leq (1 - o_{i}^{u})y_{i},	\forall i \in{} \{5,6,7,8\}, \forall t\in{}\{1,2,3,4,5,6\}\\
+	& y_{i} \leq x_{i}^{\text{\textit{max}}}, \forall i \in{} \{5,6,7,8\}\\
+\end{align*}
+There are one hundred and fifty-seven constraints in this problem.\\
+The constraints are split into the following categories:
+\begin{itemize}
+	\item Six are from the load constraints
+	\item Fifty-four are from the instantaneous capacity constraints
+	\item Five are from the annual energy constraints of the existing plants
+	\item Four are from the annual energy constraints of the new plants
+	\item Fifty-four are from the minimum generation constraints
+	\item Six are the bounds on the DSM programs
+	\item Twenty-eight constraints are for the new generation bounds.
+\end{itemize}
+\subsection*{Question 28}
+
+\subsection*{Question 29}
+
+\subsection*{Question 30}
+
+\subsection*{Question 31}
+
+\subsection*{Question 32}
+
+\subsection*{Question 33}
+
+\subsection*{Question 34}
+
+\subsection*{Question 35}
+
+\subsection*{Question 36}
+
+\subsection*{Question 37}
+
 
 \end{document} 
