@@ -17,7 +17,7 @@ classdef power_system < handle
         PUBLIC:
     %}
     
-    properties (Access = private)
+    properties (Access = public)
         
         x_i_max
         x_i_min
@@ -45,6 +45,11 @@ classdef power_system < handle
         cost_H
         cost_min_f
         cost_max_f
+        cost_SIGMA
+        
+        emi_H
+        emi_min_f
+        emi_max_f
     end
     
     methods(Access = public)
@@ -95,48 +100,120 @@ classdef power_system < handle
             obj.c_k_d = c_k_d;
             obj.sigma_k_d = sigma_k_d;
             
+            % construct matrix A and vector b, corresponding to
+            % constraints Ax<=b
             obj.construct_A_b()
+            
+            % construct cost objective functions (min and max)
             obj.gen_cost_obj_funs()
-            %obj.gen_emi_obj_funs()
+            
+            % construct emissions objective functions (min and max)
+            obj.gen_emi_obj_funs()
         end
        
         
-        
-        %{
-        function cost = minimize_cost()
-         
+        function [VAR, SLACKX, X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
+                minimize_cost(obj)
+            %{
+                This function returns the linprog output for cost 
+                minimization, as well as the cost variance and slack var
+                :param:
+                :return VAR: variance of the minimum cost
+                :return SLACKX:
+                :return X:
+                :return FVAL:
+                :return EXITFLAG:
+                :return OUTPUT:
+                :return LAMBDA:
+            %}
+                [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
+                    obj.cost_min_f, obj.A, obj.b);
+                SLACKX = ~(obj.A*X == obj.b);
+                VAR = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
         end
-         %}  
-        % optimize for expected cost
-        % get cost given f
-        % get emissions given f
-        % perform cost sensitivity at f
         
-        % optimize for emissions
-        % get cost given f
-        % get emissions given f
-        % perform emissions sensitivity at f
+        function [VAR, SLACKX, X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
+                maximize_cost(obj)
+            %{
+                This function returns the linprog output for cost 
+                minimization, as well as the cost variance and slack var
+                :param:
+                :return VAR: variance of the maximum cost
+                :return SLACKX:
+                :return X:
+                :return FVAL:
+                :return EXITFLAG:
+                :return OUTPUT:
+                :return LAMBDA:
+            %}
+                [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
+                    obj.cost_max_f, obj.A, obj.b);
+                SLACKX = ~(obj.A*X == obj.b);
+                VAR = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
+        end
         
-        % perform multiobjective on expected cost and emissions
+        function [SLACKX,X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
+                minimize_emissions(obj)
+            %{
+                :param: 
+                :return SLACKX:
+                :return X:
+                :return FVAL:
+                :return EXITFLAG:
+                :return OUTPUT:
+                :return LAMBDA:
+            %}
+                [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
+                    obj.emi_min_f, obj.A, obj.b);
+                SLACKX = ~(obj.A*X == obj.b);
+        end
+ 
+        function [SLACKX,X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
+                maximize_emissions(obj)
+            %{
+                :param: 
+                :return SLACKX:
+                :return X:
+                :return FVAL:
+                :return EXITFLAG:
+                :return OUTPUT:
+                :return LAMBDA:
+            %}
+                [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
+                    obj.emi_max_f, obj.A, obj.b);
+                SLACKX = ~(obj.A*X == obj.b);
+        end
         
-        % how to handle emissions cap? tax?
+        function cost = get_cost(obj, X)
+            %{
+                this function returns the cost given the decision variables
+                :param X: vector of decision variables
+                :return cost: total cost
+            %}
+                cost = obj.cost_c_o'*obj.cost_H*X;
+        end
         
-        % optimize for variance of cost
-        % perform multiobjective on expected cost and variance of cost
-        
-        % optimize for variance of emissions
-        % perform multiobjective on expected emissions and variance of
-        % emissions
-        
-        
+        function emissions = get_emissions(obj, X)
+            %{
+                this function returns the emissions given the decision
+                variables
+                :param X: vector of decision variables
+                :return emissions: total emissions
+            %}
+            emissions = obj.g_i'*obj.emi_H*X;
+        end
+                
     end
         
     methods(Access = private)
                 
         function construct_A_b(obj)
             %{
-                This function constructs matrix A for solving the
+                this function constructs matrix A for solving the
                 inequality constraints Ax<=b (A is 157x61, b is 1x157)
+                Properties modified:
+                    - A
+                    - b
                 :param:
                 :return:
             %}
@@ -255,14 +332,20 @@ classdef power_system < handle
         
         function gen_cost_obj_funs(obj)
             %{
-                This function generates the cost objective functions (for
+                this function generates the cost objective functions (for
                 both minimization and maximization), along with the vectors
                 and matrices needed to obtain the variance
+                Properties modified:
+                    - cost_c_o
+                    - cost_H
+                    - cost_min_f
+                    - cost_max_f
+                    - cost_SIGMA
                 :param:
                 :return:
             %}
             
-            % set up cost objective function
+            % set up cost objective function matrices
             obj.cost_c_o = [obj.c_i_v; obj.c_i_c(5:8); obj.c_k_d];
             obj.cost_H = zeros(numel(obj.cost_c_o),size(obj.A,2));
             v_idx = 1;
@@ -301,11 +384,42 @@ classdef power_system < handle
             obj.cost_min_f = obj.cost_c_o'*obj.cost_H;
             obj.cost_max_f = -obj.cost_c_o'*obj.cost_H;
             
+            % generate variance covariance matrix for cost
+            obj.cost_SIGMA = diag([obj.sigma_i_v; obj.sigma_i_c(5:8); ...
+                obj.sigma_k_d]);
+            
         end
         
         function gen_emi_obj_funs(obj)
-            a = 2;
+            %{
+                this function generates the emissions objective functions 
+                (for both minimization and maximization)
+                Properties modified:
+                    - emi_H
+                    - emi_min_f
+                    - emi_max_f
+                :param:
+                :return:
+            %}
+            
+            
+            % set up cost objective function matrices
+            obj.emi_H = zeros(numel(obj.g_i),size(obj.A,2));
+            v_idx = 1;
+            
+            % variable emissions component
+            % sum_i=1^9{sum_t=1^6{g_i_ n_t x_it}}
+            for i = 1:9
+                obj.emi_H(v_idx,1+numel(obj.n_t)*(i-1):numel(obj.n_t)+ ... 
+                    numel(obj.n_t)*(i-1)) = obj.n_t;
+                v_idx = v_idx + 1;
+            end
+            
+            % set cost min/max vector for linprog
+            obj.emi_min_f = obj.g_i'*obj.emi_H;
+            obj.emi_max_f = -obj.g_i'*obj.emi_H;
         end
+        
     end
     
 end
