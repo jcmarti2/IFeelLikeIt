@@ -110,10 +110,9 @@ classdef power_system < handle
             % construct emissions objective functions (min and max)
             obj.gen_emi_obj_funs()
         end
-       
-        
-        function [VAR, SLACKX, X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
-                minimize_cost(obj)
+           
+        function [X, FVAL, VAR, SLACK, BINDING, SHADOW,  EXITFLAG, ... 
+                OUTPUT, LAMBDA] = minimize_cost(obj)
             %{
                 This function returns the linprog output for cost 
                 minimization, as well as the cost variance and slack var
@@ -128,12 +127,22 @@ classdef power_system < handle
             %}
                 [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
                     obj.cost_min_f, obj.A, obj.b);
-                SLACKX = ~(obj.A*X == obj.b);
+                SLACK = find(~(obj.A*X == obj.b));
+                BINDING = find(obj.A*X == obj.b);
                 VAR = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
+                
+                SHADOW = zeros(numel(BINDING),1);
+                for binding_idx = 1:numel(BINDING)
+                    new_b = obj.b;
+                    new_b(BINDING(binding_idx)) = ... 
+                        new_b(BINDING(binding_idx)) + 1;
+                    [~, new_fval] = linprog(obj.cost_min_f, obj.A, new_b);
+                    SHADOW(binding_idx) = new_fval - FVAL;
+                end
         end
         
-        function [VAR, SLACKX, X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
-                maximize_cost(obj)
+        function [X, FVAL, VAR, SLACK, BINDING, EXITFLAG, OUTPUT, ...
+                LAMBDA] = maximize_cost(obj)
             %{
                 This function returns the linprog output for cost 
                 minimization, as well as the cost variance and slack var
@@ -148,12 +157,13 @@ classdef power_system < handle
             %}
                 [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
                     obj.cost_max_f, obj.A, obj.b);
-                SLACKX = ~(obj.A*X == obj.b);
-                VAR = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
+                SLACK = find(~(obj.A*X == obj.b));
+                BINDING = find(obj.A*X == obj.b);
+                VAR = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;     
         end
         
-        function [SLACKX,X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
-                minimize_emissions(obj)
+        function [X, FVAL, VAR, SLACK, BINDING, SHADOW, EXITFLAG, OUTPUT, ... 
+                LAMBDA] = minimize_emissions(obj)
             %{
                 :param: 
                 :return SLACKX:
@@ -163,12 +173,27 @@ classdef power_system < handle
                 :return OUTPUT:
                 :return LAMBDA:
             %}
+                options = optimoptions('linprog','Algorithm', ...
+                    'dual-simplex');
                 [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
-                    obj.emi_min_f, obj.A, obj.b);
-                SLACKX = ~(obj.A*X == obj.b);
+                    obj.emi_min_f, obj.A, obj.b,[],[],[],[],[],options);
+                SLACK = find(~(obj.A*X == obj.b));
+                BINDING = find(obj.A*X == obj.b);
+                
+                VAR = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
+                
+                SHADOW = zeros(numel(BINDING),1);
+                for binding_idx = 1:numel(BINDING)
+                    new_b = obj.b;
+                    new_b(BINDING(binding_idx)) = ... 
+                        new_b(BINDING(binding_idx)) + 1;
+                    [~, new_fval] = linprog(obj.emi_min_f, obj.A, ... 
+                        new_b,[],[],[],[],[],options);
+                    SHADOW(binding_idx) = new_fval - FVAL;
+                end
         end
  
-        function [SLACKX,X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = ...
+        function [X, FVAL, SLACK, BINDING, EXITFLAG, OUTPUT, LAMBDA] = ...
                 maximize_emissions(obj)
             %{
                 :param: 
@@ -181,7 +206,29 @@ classdef power_system < handle
             %}
                 [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = linprog( ...
                     obj.emi_max_f, obj.A, obj.b);
-                SLACKX = ~(obj.A*X == obj.b);
+                SLACK = find(~(obj.A*X == obj.b));
+                BINDING = find(obj.A*X == obj.b);
+        end
+        
+        function [costs, emissions] = minimize_cost_and_emissions(obj)
+            
+            lambdas = linspace(0,1,5000);
+            costs = zeros(1,numel(lambdas));
+            emissions = zeros(1,numel(lambdas));
+            [~,min_cost] = linprog(obj.cost_min_f, obj.A, obj.b);
+            options = optimoptions('linprog','Algorithm', ...
+                    'dual-simplex');
+            [~,min_emi] = linprog(obj.emi_min_f, obj.A, obj.b,[],[], ...
+                [],[],[],options);
+            
+            for idx = 1:numel(lambdas)
+                lambda = lambdas(idx);
+                f = (lambda/min_cost).*(obj.cost_c_o'*obj.cost_H) + ...
+                    ((1-lambda)/min_emi).*(obj.g_i'*obj.emi_H);
+                X = linprog(f, obj.A, obj.b,[],[],[],[],[],options);
+                costs(idx) = obj.get_cost(X);
+                emissions(idx) = obj.get_emissions(X);
+            end
         end
         
         function cost = get_cost(obj, X)
@@ -386,7 +433,7 @@ classdef power_system < handle
             
             % generate variance covariance matrix for cost
             obj.cost_SIGMA = diag([obj.sigma_i_v; obj.sigma_i_c(5:8); ...
-                obj.sigma_k_d]);
+                obj.sigma_k_d]).^2;
             
         end
         
@@ -401,7 +448,6 @@ classdef power_system < handle
                 :param:
                 :return:
             %}
-            
             
             % set up cost objective function matrices
             obj.emi_H = zeros(numel(obj.g_i),size(obj.A,2));
