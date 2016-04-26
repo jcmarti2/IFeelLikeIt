@@ -116,8 +116,9 @@ classdef power_system < handle
                 'dual-simplex');
         end
            
-        function [x, cost, emissions, variance, slack, binding, shadow, ...
-                exitflag, output, lambda] = minimize_cost(obj)
+        function [x, cost, emissions, variance, slack, binding, ...
+                shadow_cost, shadow_emi, exitflag, output, lambda] = ...
+                minimize_cost(obj)
             %{
                 this function returns the results from the cost
                 minimization optimization problem
@@ -128,26 +129,32 @@ classdef power_system < handle
                 :return variance: cost variance
                 :return slack: vector of indices of slack variables
                 :return binding: vector of indices of binding variables
-                :return shadow: vector of shadow prices for binding var
+                :return shadow_cost: vector of shadow prices for binding
+                                variables
+                :return shadow_emi: vector of shadow emissions for binding
+                                    variables
                 :return exitflag: exitflag from linprog
                 :return output: output from linprog
                 :return lambda: lambda from linprog
             %}
                 [x,cost,exitflag,output,lambda] = linprog( ...
                     obj.cost_min_f,obj.A,obj.b,[],[],[],[],[],obj.options);
-                emissions = obj.g_i'*obj.emi_H*x;
-                
+                emissions = obj.g_i'*obj.emi_H*x;     
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
                 
                 slack = find(~(obj.A*x == obj.b));
                 binding = find(obj.A*x == obj.b);
-                shadow = zeros(numel(binding),1);
+                shadow_cost = zeros(numel(binding),1);
+                shadow_emi = zeros(numel(binding),1);
                 for binding_idx = 1:numel(binding)
                     new_b = obj.b;
                     new_b(binding(binding_idx)) = ... 
                         new_b(binding(binding_idx)) + 1;
-                    [~, new_fval] = linprog(obj.cost_min_f, obj.A, new_b);
-                    shadow(binding_idx) = new_fval - cost;
+                    [new_x, new_cost] = linprog(obj.cost_min_f, obj.A, ... 
+                        new_b,[],[],[],[],[],obj.options);
+                    shadow_cost(binding_idx) = new_cost - cost;
+                    shadow_emi(binding_idx) = obj.g_i'*obj.emi_H*new_x ...
+                        - emissions;
                 end
         end
         
@@ -170,12 +177,12 @@ classdef power_system < handle
                 [x,cost,exitflag,output,lambda] = linprog( ...
                     obj.cost_max_f,obj.A,obj.b,[],[],[],[],[],obj.options);
                 emissions = obj.g_i'*obj.emi_H*x;
-                slack = find(~(obj.A*X == obj.b));
-                binding = find(obj.A*X == obj.b);
-                variance = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;     
+                variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x; 
+                slack = find(~(obj.A*x == obj.b));
+                binding = find(obj.A*x == obj.b);    
         end
         
-        function [x, cost, emissions, variance, slack, binding, shadow, ...
+        function [x, cost, emissions, variance, slack, binding, shadow_cost, ...
                 exitflag, output, lambda] = minimize_emissions(obj)
             %{
                 this function returns the results from the emissions
@@ -187,7 +194,9 @@ classdef power_system < handle
                 :return variance: cost variance
                 :return slack: vector of indices of slack variables
                 :return binding: vector of indices of binding variables
-                :return shadow: vector of shadow prices for binding var
+                :return shadow_cost: vector of shadow prices for binding var
+                :return shadow_emi: vector of shadow emissions for binding
+                                    variables
                 :return exitflag: exitflag from linprog
                 :return output: output from linprog
                 :return lambda: lambda from linprog
@@ -200,14 +209,17 @@ classdef power_system < handle
                 
                 slack = find(~(obj.A*x == obj.b));
                 binding = find(obj.A*x == obj.b);
-                shadow = zeros(numel(binding),1);
+                shadow_cost = zeros(numel(binding),1);
+                shadow_emi = zeros(numel(binding),1);
                 for binding_idx = 1:numel(binding)
                     new_b = obj.b;
                     new_b(binding(binding_idx)) = ... 
                         new_b(binding(binding_idx)) + 1;
-                    [~, new_emi] = linprog(obj.emi_min_f, obj.A, ... 
-                        new_b,[],[],[],[],[],obj.options);
-                    shadow(binding_idx) = new_emi - emissions;
+                    [new_x, new_emi] = linprog(obj.emi_min_f, obj.A, ... 
+                        new_b,[],[],[],[],[],obj.options);                   
+                    shadow_emi(binding_idx) = new_emi - emissions;
+                    shadow_cost(binding_idx) = obj.cost_c_o'* ... 
+                        obj.cost_H*new_x - cost;
                 end
         end
  
@@ -228,11 +240,11 @@ classdef power_system < handle
                 :return lambda: lambda from linprog
             %}
                 [x,emissions,exitflag,output,lambda] = linprog( ...
-                    obj.emi_max_f, obj.A, obj.b);
+                    obj.emi_max_f, obj.A, obj.b,[],[],[],[],[],obj.options);
                 cost = obj.cost_c_o'*obj.cost_H*x;
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
-                slack = find(~(obj.A*X == obj.b));
-                binding = find(obj.A*X == obj.b);
+                slack = find(~(obj.A*x == obj.b));
+                binding = find(obj.A*x == obj.b);
         end
         
         function [costs, emissions] = minimize_cost_and_emissions(obj)
@@ -256,23 +268,23 @@ classdef power_system < handle
             end
         end
         
-        function cost = get_cost(obj, X)
+        function cost = get_cost(obj, x)
             %{
                 this function returns the cost given the decision variables
-                :param X: vector of decision variables
+                :param x: vector of decision variables
                 :return cost: total cost
             %}
-                cost = obj.cost_c_o'*obj.cost_H*X;
+                cost = obj.cost_c_o'*obj.cost_H*x;
         end
         
-        function emissions = get_emissions(obj, X)
+        function emissions = get_emissions(obj, x)
             %{
                 this function returns the emissions given the decision
                 variables
                 :param X: vector of decision variables
                 :return emissions: total emissions
             %}
-            emissions = obj.g_i'*obj.emi_H*X;
+            emissions = obj.g_i'*obj.emi_H*x;
         end
                 
     end
