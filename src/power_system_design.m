@@ -19,9 +19,11 @@ clear all
 %             USER INPUT
 % =================================
 
-q_4_28 = true;
+q_4_28 = false;
 q_4_29 = false;
 q_4_30 = false;
+q_4_31 = false;
+q_4_32 = false;
 
 % =================================
 %   NO USER INPUT AFTER THIS LINE
@@ -80,8 +82,37 @@ end
 if q_4_30
     [costs, emissions, decisions] = power_system.minimize_cost_and_emissions();
     plot(costs,emissions)
-    title('Pareto Optimality')
-    xlabel('Cost [$]')
-    ylabel('Emissions [tons CO2')
+    title('Pareto Optimality','Interpreter','latex')
+    xlabel('Cost [\$]','Interpreter','latex')
+    ylabel('Emissions [tons $CO_{2}$]','Interpreter','latex')
+    grid on
+end
+
+% 4.31
+if q_4_31
+    [costs, caps] = power_system.minimize_cost_with_emissions_cap();
+    plot(costs,caps)
+    xlabel('Emissions cap [tons CO2]')
+    ylabel('Costs [$]')
+    grid on
+end
+
+% 4.32
+if q_4_32
+    [rates,cost,emissions] = power_system.tax_emissions();
+    figure
+    plot(cost,emissions)
+    title('Cost-Emissions Curve after Tax Implementation','Interpreter','latex')
+    xlabel('Costs [\$]','Interpreter','latex')
+    ylabel('Emissions [tons $CO_{2}$]','Interpreter','latex')
+    grid on
+    figure
+    hold on
+    [ax, h1, h2] = plotyy(rates, cost, rates, emissions, 'plot');
+    title('Cost and Emissions with Tax Implementation','Interpreter','latex')
+    xlabel('Tax rate [\%]','Interpreter','latex')
+    set(get(ax(1), 'Ylabel'), 'String', 'Cost [\$]','Interpreter','latex');
+    set(get(ax(2), 'Ylabel'), 'String', 'Emissions [tons $CO_{2}$]','Interpreter','latex');
+    legend('Costs','Emissions')
     grid on
 end

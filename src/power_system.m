@@ -276,50 +276,65 @@ classdef power_system < handle
                 :param:
                 :return costs: vector of pareto costs [$]
                 :return emissions: vector of pareto emissions [tons]
+                :return decisions: matrix were each column is a decision
+                vector that corresponds to each index of costs and
+                emissions
             %}
             
-            lambdas = linspace(0,1,1000);
-            costs = zeros(1,numel(lambdas));
-            emissions = zeros(1,numel(lambdas));
-            decisions = zeros(1,numel(lambdas));
+            % intialize empty data structures
+            num_caps = 1000;
+            lambdas = linspace(0,1,num_caps);
+            costs = zeros(1,num_caps);
+            emissions = zeros(1,num_caps);
+            decisions = zeros(size(obj.cost_min_f,2),num_caps);
+            
+            % obtain minimum emissions and minimum cost (for normalizing
+            % pareto)
             [~,min_cost] = linprog(obj.cost_min_f, obj.A, obj.b,[],[], ...
                 [],[],[],obj.options);
             [~,min_emi] = linprog(obj.emi_min_f, obj.A, obj.b,[],[], ...
-                [],[],[],obj.options);
-            min_emi = min_emi*(10^-3);
+                [],[],[],obj.options);    
             
-            for idx = 1:numel(lambdas)
+            % compute pareto curve
+            for idx = 1:num_caps
                 lambda = lambdas(idx);
+                % get new objective f for linprog and X as a result
                 f = (lambda/min_cost).*(obj.cost_c_o'*obj.cost_H) + ...
                     ((1-lambda)/min_emi).*(obj.g_i'*obj.emi_H);
                 X = linprog(f, obj.A, obj.b,[],[],[],[],[],obj.options);
+                % compute new costs and emissions
                 costs(idx) = obj.cost_c_o'*obj.cost_H*X;
                 emissions(idx) = (obj.g_i'*obj.emi_H*X)*(10^-3);
-                %decisions(idx) = [X];
+                decisions(:,idx) = X';
             end
         end
         
-        function [x, cost1, cost2] = minimize_cost_with_emissions_cap(obj)
+        function [costs, caps] = minimize_cost_with_emissions_cap(obj)
             %{
                 this function sets emissions caps and minimizes cost
                 :param:
-                :return 
+                :return costs:
+                :return caps:
             %}
-                        
-            [x,emissions,exitflag,output,lambda] = linprog( ...
-                obj.emi_min_f, obj.A, obj.b,[],[],[],[],[],obj.options);
+                    
+            % minimize emissions
+            [~, min_emi] = linprog(obj.emi_min_f, obj.A, obj.b,[],[], ... 
+                [],[],[],obj.options);
             
+            num_caps = 1000;
+            
+            % new A and b
             new_A = [obj.A; obj.emi_min_f];
-            %disp(obj.emi_min_f)
-            new_b = [obj.b; (emissions*1.1)];
-            %size(new_b)
-            
-            
-            [x,cost1,exitflag,output,lambda] = linprog( ...
-                obj.cost_min_f,obj.A,obj.b,[],[],[],[],[],obj.options);
-            
-            [x,cost2,exitflag,output,lambda] = linprog( ...
-                obj.cost_min_f,new_A,new_b,[],[],[],[],[],obj.options);
+            caps = linspace(0,1,num_caps);
+            costs = zeros(numel(caps));
+            for i = 1:num_caps
+                new_b_row = min_emi + min_emi*caps(i);
+                new_b = [obj.b; (new_b_row)];
+                [~,cost] = linprog(obj.cost_min_f,new_A,new_b,[],[],[], ...
+                    [],[],obj.options);
+                caps(i) = new_b_row;
+                costs(i) = cost;
+            end
             
         end
             
@@ -334,16 +349,16 @@ classdef power_system < handle
                                    [tons]
             %}
             
-            num_rates = 100;
-            max_rate = 1;
+            num_rates = 1000;
+            max_rate = 50;
             rates = linspace(0,max_rate,num_rates);
             costs = zeros(num_rates);
             emissions = zeros(num_rates);
             
             % compute cost and emissions for each rate
-            for i = 1:numel(rates)
+            for i = 1:num_rates
                 rate = rates(i);
-                tax_f = obj.cost_min_f + obj.emi_min_f*rate;
+                tax_f = obj.cost_min_f + obj.emi_min_f*(rate/100);
                 [x,cost] = linprog(tax_f,obj.A,obj.b,[],[],[],[],[], ... 
                     obj.options);
                     costs(i) = cost;
@@ -353,10 +368,25 @@ classdef power_system < handle
         end
         
         function [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = var_stuff(obj)
-            H_quad = 2*(obj.cost_H'*obj.cost_SIGMA*obj.cost_H + ...
-                eye(size(obj.cost_H'*obj.cost_SIGMA*obj.cost_H))*10);
+           
+            H_quad1 = 2*(obj.cost_H'*obj.cost_SIGMA*obj.cost_H);
+
             
-            [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = quadprog(H_quad,[],obj.A,obj.b);
+            H_quad2 = 2*(obj.cost_H'*obj.cost_SIGMA*obj.cost_H + ...
+                eye(size(obj.cost_H'*obj.cost_SIGMA*obj.cost_H))*10);
+            issymmetric(H_quad1)
+            issymmetric(H_quad2)
+            %{
+            disp(size(2*(obj.cost_H'*obj.cost_SIGMA*obj.cost_H + ...
+                eye(size(obj.cost_H'*obj.cost_SIGMA*obj.cost_H))*10)))
+            disp(eig(2*(obj.cost_H'*obj.cost_SIGMA*obj.cost_H + ...
+                eye(size(obj.cost_H'*obj.cost_SIGMA*obj.cost_H))*10)))
+            %}
+              
+            [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = quadprog(H_quad1,[],obj.A,obj.b);
+            [X,FVAL,EXITFLAG,OUTPUT,LAMBDA] = quadprog(H_quad2,[],obj.A,obj.b);
+
+            
         end
         
         function cost = get_cost(obj, x)
