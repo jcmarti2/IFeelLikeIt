@@ -33,6 +33,10 @@ q_2_17 = false;
 q_2_18 = false; 
 q_2_19 = false; % TODO (ALSO IN IIM CLASS)
 
+% WARNING: 
+% Do not run q_2_12 in combination with other questions.
+% Matrix A is changed, so it will change the results of the
+% instance. Run separately.
 
 % =================================
 %   NO USER INPUT AFTER THIS LINE
@@ -90,6 +94,9 @@ end
 
 
 % 2.12
+% WARNING: Do not run in combination with other questions.
+% Matrix A is changed, so it will change the results of the
+% instance. Run separately.
 if q_2_12
     changes = zeros(len,len);
     changes(:,2) = [0 0 10 10 0 0 0 -10 -10 10]' ;
