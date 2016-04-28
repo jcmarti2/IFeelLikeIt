@@ -299,7 +299,12 @@ classdef power_system < handle
             end
         end
         
-        function [x, cost1, cost2] = get_stuff(obj)
+        function [x, cost1, cost2] = minimize_cost_with_emissions_cap(obj)
+            %{
+                this function sets emissions caps and minimizes cost
+                :param:
+                :return 
+            %}
                         
             [x,emissions,exitflag,output,lambda] = linprog( ...
                 obj.emi_min_f, obj.A, obj.b,[],[],[],[],[],obj.options);
@@ -318,21 +323,32 @@ classdef power_system < handle
             
         end
             
-        function [ts, costs, emis] = tax_stuff(obj)
+        function [rates, costs, emissions] = tax_emissions(obj)
+            %{
+                this function computes the costs and emissions of the power
+                system for various tax rates
+                :param:
+                :return rates: vector of rates used [%]
+                :return costs: vector of costs for a given rate [$]
+                :return emissions: vector of emissions for a given rate
+                                   [tons]
+            %}
             
-            ts = linspace(0,0.57,50);
-            costs = zeros(50);
-            emis = zeros(50);
+            num_rates = 100;
+            max_rate = 1;
+            rates = linspace(0,max_rate,num_rates);
+            costs = zeros(num_rates);
+            emissions = zeros(num_rates);
             
-            for i = 1:50
-                t = ts(i);
-                tax_f = obj.cost_min_f + obj.emi_min_f*t;
-                [x,cost1,exitflag,output,lambda] = linprog( ...
-                    tax_f,obj.A,obj.b,[],[],[],[],[],obj.options);
-                    costs(i) = cost1;
+            % compute cost and emissions for each rate
+            for i = 1:numel(rates)
+                rate = rates(i);
+                tax_f = obj.cost_min_f + obj.emi_min_f*rate;
+                [x,cost] = linprog(tax_f,obj.A,obj.b,[],[],[],[],[], ... 
+                    obj.options);
+                    costs(i) = cost;
                     emi = obj.g_i'*obj.emi_H*x;
-                    emis(i) = emi;
-                
+                    emissions(i) = emi;   
             end
         end
         
