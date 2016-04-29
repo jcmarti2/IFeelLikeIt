@@ -142,10 +142,8 @@ classdef power_system < handle
                 emissions = (obj.g_i'*obj.emi_H*x)*(10^-3);     
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
                 
-                %slack = find(~(obj.A*x == obj.b));
-                %binding = find(obj.A*x == obj.b);
-                slack = find(obj.A*x  - obj.b < 0);
-                binding = find(~(obj.A*x  - obj.b < 0));
+                slack = find(obj.b - obj.A*abs(x) > 10^-10);
+                binding = find(~(obj.b - obj.A*abs(x) > 10^-10));
                 shadow_cost = zeros(numel(binding),1);
                 shadow_emi = zeros(numel(binding),1);
                 for binding_idx = 1:numel(binding)
@@ -218,10 +216,8 @@ classdef power_system < handle
                 emissions = emissions*(10^-3);
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
                 
-                %slack = find(~(obj.A*x == obj.b));
-                %binding = find(obj.A*x == obj.b);
-                slack = find(obj.A*x  - obj.b < 0);
-                binding = find(~(obj.A*x  - obj.b < 0));
+                slack = find(obj.b - obj.A*abs(x) > 10^-10);
+                binding = find(~(obj.b - obj.A*abs(x) > 10^-10));
                 shadow_cost = zeros(numel(binding),1);
                 shadow_emi = zeros(numel(binding),1);
                 for binding_idx = 1:numel(binding)
