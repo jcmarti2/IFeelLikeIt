@@ -19,11 +19,14 @@ clear all
 %             USER INPUT
 % =================================
 
-q_4_28 = true;
+q_4_28 = false;
 q_4_29 = false;
 q_4_30 = false;
 q_4_31 = false;
 q_4_32 = false;
+q_4_33 = false;
+q_4_34 = false;
+q_add = true;
 
 % =================================
 %   NO USER INPUT AFTER THIS LINE
@@ -57,8 +60,8 @@ power_system = power_system(x_i_max, x_i_min, o_i_u, o_i_p, g_i, c_i_v, ...
 % 4.28
 if q_4_28
     [x, cost, emissions, variance, slack, binding, ...
-                shadow_cost, shadow_emi, exitflag, output, lambda] = ...
-                power_system.minimize_cost();
+                shadow_cost, shadow_emi, shadow_var, exitflag, output, ...
+                lambda] = power_system.minimize_cost();
     fprintf('COST MINIMIZATION \n')
     fprintf('Cost [$]: %i.\n',cost)
     fprintf('Emissions [tons]: %i.\n',emissions)
@@ -69,8 +72,8 @@ end
 % 4.29
 if q_4_29
     [x, cost, emissions, variance, slack, binding, ...
-                shadow_cost, shadow_emi, exitflag, output, lambda] = ...
-                power_system.minimize_emissions();
+                shadow_cost, shadow_emi, shadow_var, exitflag, output, ...
+                lambda] = power_system.minimize_emissions();
     fprintf('EMISSIONS MINIMIZATION \n')
     fprintf('Cost [$]: %i.\n',cost)
     fprintf('Emissions [tons]: %i.\n',emissions)
@@ -82,7 +85,7 @@ end
 if q_4_30
     [costs, emissions, decisions] = power_system.minimize_cost_and_emissions();
     plot(costs,emissions)
-    title('Pareto Optimality','Interpreter','latex')
+    title('Cost-Emissions Pareto Optimality','Interpreter','latex')
     xlabel('Cost [\$]','Interpreter','latex')
     ylabel('Emissions [tons $CO_{2}$]','Interpreter','latex')
     grid on
@@ -115,4 +118,35 @@ if q_4_32
     set(get(ax(2), 'Ylabel'), 'String', 'Emissions [tons $CO_{2}$]','Interpreter','latex');
     legend('Costs','Emissions')
     grid on
+end
+
+% 4.33
+if q_4_33
+    
+    [x, cost, emissions, variance, slack, binding, ...
+                shadow_cost, shadow_emi, shadow_var, exitflag, output, ...
+                lambda] = power_system.minimize_variance();
+    fprintf('VARIANCE MINIMIZATION \n')
+    fprintf('Cost [$]: %i.\n',cost)
+    fprintf('Emissions [tons]: %i.\n',emissions)
+    fprintf('Cost standard deviation [$]: %i.\n',sqrt(variance))
+    fprintf('\n')
+end
+
+%4.34
+if q_4_34
+    [costs, variances, decisions] = power_system.minimize_cost_and_variance();
+    plot(costs,variances)
+    title('Cost-Variance Pareto Optimality','Interpreter','latex')
+    xlabel('Cost [\$]','Interpreter','latex')
+    ylabel('Variance [$\$^2$]','Interpreter','latex')
+    grid on
+end
+
+if q_add
+    [costs, emissions, variances, decisions] = ...
+                power_system.minimize_cost_emissions_and_variance();
+    [X,Y,Z] = meshgrid(costs,emissions,variances);
+    surf(costs,emissions,Z)
+    
 end
