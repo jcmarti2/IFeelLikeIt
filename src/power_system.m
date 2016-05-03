@@ -459,7 +459,7 @@ classdef power_system < handle
                 % get new objective f for linprog and X as a result
                 f = (lambda/min_cost).*(obj.cost_c_o'*obj.cost_H);
                 H = ((1-lambda)/min_var).*obj.var_quad_H;
-                X = quadprog(H,f,obj.A,obj.b);  
+                X = quadprog(H,f,obj.A,obj.b); 
                 % compute new costs and emissions
                 costs(idx) = obj.cost_c_o'*obj.cost_H*X;
                 variances(idx) = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
@@ -470,12 +470,15 @@ classdef power_system < handle
         function [costs, emissions, variances, decisions] = ...
                 minimize_cost_emissions_and_variance(obj)
             
-            num_steps = 20;
+            num_steps = 40;
             lambdas = linspace(0,1,num_steps);
-            costs = zeros(1,num_steps^2);
-            emissions = zeros(1,num_steps^2);
-            variances = zeros(1,num_steps^2);
-            decisions = zeros(size(obj.cost_min_f,2),num_steps^2);
+            costs = -1*ones(1,num_steps^2);
+            emissions = -1*ones(1,num_steps^2);
+            variances = -1*ones(1,num_steps^2);
+            decisions = -1*ones(size(obj.cost_min_f,2),num_steps^2);
+            
+            opt = optimoptions('quadprog','Algorithm', ... 
+                'trust-region-reflective','Display', 'off');
             
             % obtain minimum emissions and minimum cost (for normalizing
             % pareto)
@@ -487,21 +490,20 @@ classdef power_system < handle
             
             for idx_1 = 1:num_steps
                 lambda = lambdas(idx_1);
-                gammas = linspace(0,lambda,num_steps);
+                gammas = linspace(0,1-lambda,num_steps);
                 for idx_2 = 1:num_steps
                     gamma = gammas(idx_2);
-                    f = (gamma/min_cost).*(obj.cost_c_o'*obj.cost_H) + ...
-                        ((1-lambda-gamma)/min_emi).*(obj.g_i'*obj.emi_H);
+                    f = (gamma/min_cost).*(obj.cost_min_f) + ...
+                        ((1-lambda-gamma)/min_emi).*(obj.emi_min_f);
                     H = (lambda/min_var).*obj.var_quad_H;
-                    X = quadprog(H,f,obj.A,obj.b);  
+                    X = quadprog(H,f,obj.A,obj.b);
                     % compute new costs and emissions
-                    costs(idx_1 + idx_2) = obj.cost_c_o'*obj.cost_H*X;
-                    emissions(idx_1 + idx_2) = (obj.g_i'*obj.emi_H*X)*(10^-3);
-                    variances(idx_1 + idx_2) = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
-                    decisions(:,idx_1 + idx_2) = X';
+                    costs((idx_1-1)*num_steps + idx_2) = obj.cost_c_o'*obj.cost_H*X;
+                    emissions((idx_1-1)*num_steps + idx_2) = (obj.g_i'*obj.emi_H*X)*(10^-3);
+                    variances((idx_1-1)*num_steps + idx_2) = X'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*X;
+                    decisions(:,(idx_1-1)*num_steps + idx_2) = X';
                 end
             end
-            
         end
         
         function cost = get_cost(obj, x)

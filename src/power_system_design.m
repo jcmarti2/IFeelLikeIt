@@ -26,7 +26,7 @@ q_4_31 = false;
 q_4_32 = false;
 q_4_33 = false;
 q_4_34 = false;
-q_add = true;
+q_4_35 = true;
 
 % =================================
 %   NO USER INPUT AFTER THIS LINE
@@ -133,7 +133,7 @@ if q_4_33
     fprintf('\n')
 end
 
-%4.34
+% 4.34
 if q_4_34
     [costs, variances, decisions] = power_system.minimize_cost_and_variance();
     plot(costs,variances)
@@ -143,10 +143,13 @@ if q_4_34
     grid on
 end
 
-if q_add
+% 4.35
+if q_4_35
     [costs, emissions, variances, decisions] = ...
                 power_system.minimize_cost_emissions_and_variance();
-    [X,Y,Z] = meshgrid(costs,emissions,variances);
-    surf(costs,emissions,Z)
-    
+    scatter3(costs, emissions, variances,'.')
+    title('Cost-Emissions-Variance Pareto Optimality','Interpreter','latex')
+    xlabel('Cost [\$]','Interpreter','latex')
+    ylabel('Emissions [tons $CO_{2}$]','Interpreter','latex')
+    zlabel('Variance [$\$^2$]','Interpreter','latex')
 end
