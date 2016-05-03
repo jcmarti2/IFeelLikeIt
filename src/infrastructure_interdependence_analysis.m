@@ -31,7 +31,7 @@ q_2_15 = false;
 q_2_16 = false;
 q_2_17 = false; 
 q_2_18 = false; 
-q_2_19 = false; % TODO (ALSO IN IIM CLASS)
+q_2_19 = false;
 
 % WARNING: 
 % Do not run q_2_12 in combination with other questions.
