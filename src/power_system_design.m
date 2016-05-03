@@ -21,12 +21,15 @@ clear all
 
 q_4_28 = false;
 q_4_29 = false;
-q_4_30 = false;
+q_4_30 = true;
 q_4_31 = false;
 q_4_32 = false;
 q_4_33 = false;
 q_4_34 = false;
-q_4_35 = true;
+q_4_35 = false; % includes 4.36
+q_4_37 = false; 
+
+% WARNING: run q_4_37 independently, as it modified the class instance
 
 % =================================
 %   NO USER INPUT AFTER THIS LINE
@@ -94,9 +97,11 @@ end
 % 4.31
 if q_4_31
     [costs, caps] = power_system.minimize_cost_with_emissions_cap();
+    figure
     plot(costs,caps)
-    xlabel('Emissions cap [tons CO2]')
-    ylabel('Costs [$]')
+    title('Costs with Emissions Cap','Interpreter','latex')
+    xlabel('Emissions cap [tons CO2]','Interpreter','latex')
+    ylabel('Costs [$]','Interpreter','latex')
     grid on
 end
 
@@ -143,7 +148,7 @@ if q_4_34
     grid on
 end
 
-% 4.35
+% 4.35, 4.36
 if q_4_35
     [costs, emissions, variances, decisions] = ...
                 power_system.minimize_cost_emissions_and_variance();
@@ -152,4 +157,40 @@ if q_4_35
     xlabel('Cost [\$]','Interpreter','latex')
     ylabel('Emissions [tons $CO_{2}$]','Interpreter','latex')
     zlabel('Variance [$\$^2$]','Interpreter','latex')
+    % selected optimal point is 3.5073*10^13
+    [~, opt_var_idx] = min(abs(variances - 3.5073*10^13));
+    opt_var = variances(opt_var_idx);
+    opt_cost = costs(opt_var_idx);
+    opt_emi = emissions(opt_var_idx);
+    opt_decision = decisions(:,opt_var_idx);
+    fprintf('OPTIMAL DESIGN \n')
+    fprintf('Cost [$]: %i.\n', opt_cost)
+    fprintf('Emissions [tons]: %i.\n', opt_emi)
+    fprintf('Cost standard deviation [$]: %i.\n',sqrt(opt_var))
+    fprintf('\n')
+end
+
+if q_4_37
+    o_i_u = [0.05 0.04 0.035 0.05 0.05 0.05 0.035 0.03 0.50]';
+    clear power_system
+    power_system = power_system(x_i_max, x_i_min, o_i_u, o_i_p, g_i, c_i_v, ... 
+        sigma_i_v, c_i_c, sigma_i_c, n_t, l, s_kt_max, c_k_d, sigma_k_d);
+    [costs, emissions, variances, decisions] = ...
+                power_system.minimize_cost_emissions_and_variance();
+    scatter3(costs, emissions, variances,'.')
+    title('Cost-Emissions-Variance Pareto Optimality','Interpreter','latex')
+    xlabel('Cost [\$]','Interpreter','latex')
+    ylabel('Emissions [tons $CO_{2}$]','Interpreter','latex')
+    zlabel('Variance [$\$^2$]','Interpreter','latex')
+    % selected optimal point is 3.5073*10^13
+    [~, opt_var_idx] = min(abs(variances - 3.5073*10^13));
+    opt_var = variances(opt_var_idx);
+    opt_cost = costs(opt_var_idx);
+    opt_emi = emissions(opt_var_idx);
+    opt_decision = decisions(:,opt_var_idx);
+    fprintf('NEW OPTIMAL DESIGN \n')
+    fprintf('Cost [$]: %i.\n', opt_cost)
+    fprintf('Emissions [tons]: %i.\n', opt_emi)
+    fprintf('Cost standard deviation [$]: %i.\n',sqrt(opt_var))
+    fprintf('\n')   
 end

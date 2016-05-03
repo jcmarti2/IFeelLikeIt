@@ -34,7 +34,8 @@ classdef power_system < handle
         c_k_d
         sigma_k_d
         
-        options
+        lin_options
+        quad_options
         
         A
         b
@@ -117,8 +118,9 @@ classdef power_system < handle
             % construct matrix for variance minimization
             obj.gen_var_obj_funs()
             
-            obj.options = optimoptions('linprog','Algorithm', ...
+            obj.lin_options = optimoptions('linprog','Algorithm', ...
                 'dual-simplex','Display', 'off');
+            obj.quad_options = optimoptions('quadprog','Display','off');
         end
            
         function [x, cost, emissions, variance, slack, binding, ...
@@ -144,7 +146,7 @@ classdef power_system < handle
                 :return lambda: lambda from linprog
             %}
                 [x,cost,exitflag,output,lambda] = linprog( ...
-                    obj.cost_min_f,obj.A,obj.b,[],[],[],[],[],obj.options);
+                    obj.cost_min_f,obj.A,obj.b,[],[],[],[],[],obj.lin_options);
                 emissions = (obj.g_i'*obj.emi_H*x)*(10^-3);     
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
                 
@@ -164,7 +166,7 @@ classdef power_system < handle
                     new_b(binding(binding_idx)) = ... 
                         new_b(binding(binding_idx)) + agg_val;
                     [new_x, new_cost] = linprog(obj.cost_min_f, obj.A, ... 
-                        new_b,[],[],[],[],[],obj.options);
+                        new_b,[],[],[],[],[],obj.lin_options);
                     shadow_cost(binding_idx) = new_cost - cost;
                     shadow_emi(binding_idx) = (obj.g_i'*obj.emi_H*new_x)*(10^-3) ...
                         - emissions;
@@ -190,7 +192,7 @@ classdef power_system < handle
                 :return lambda: lambda from linprog
             %}
                 [x,cost,exitflag,output,lambda] = linprog( ...
-                    obj.cost_max_f,obj.A,obj.b,[],[],[],[],[],obj.options);
+                    obj.cost_max_f,obj.A,obj.b,[],[],[],[],[],obj.lin_options);
                 emissions = (obj.g_i'*obj.emi_H*x)*(10^-3);
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x; 
                 slack = find(~(obj.A*x == obj.b));
@@ -221,7 +223,7 @@ classdef power_system < handle
             %}
 
                 [x,emissions,exitflag,output,lambda] = linprog( ...
-                    obj.emi_min_f, obj.A, obj.b,[],[],[],[],[],obj.options);
+                    obj.emi_min_f, obj.A, obj.b,[],[],[],[],[],obj.lin_options);
                 cost = obj.cost_c_o'*obj.cost_H*x;
                 emissions = emissions*(10^-3);
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
@@ -242,7 +244,7 @@ classdef power_system < handle
                     new_b(binding(binding_idx)) = ... 
                         new_b(binding(binding_idx)) + agg_val;
                     [new_x, new_emi] = linprog(obj.emi_min_f, obj.A, ... 
-                        new_b,[],[],[],[],[],obj.options);  
+                        new_b,[],[],[],[],[],obj.lin_options);  
                     new_emi = new_emi*(10^-3);
                     shadow_emi(binding_idx) = new_emi - emissions;
                     shadow_cost(binding_idx) = obj.cost_c_o'* ... 
@@ -270,7 +272,7 @@ classdef power_system < handle
                 :return lambda: lambda from linprog
             %}
                 [x,emissions,exitflag,output,lambda] = linprog( ...
-                    obj.emi_max_f, obj.A, obj.b,[],[],[],[],[],obj.options);
+                    obj.emi_max_f, obj.A, obj.b,[],[],[],[],[],obj.lin_options);
                 emissions = emissions*(10^-3);
                 cost = obj.cost_c_o'*obj.cost_H*x;
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
@@ -300,9 +302,9 @@ classdef power_system < handle
             % obtain minimum emissions and minimum cost (for normalizing
             % pareto)
             [~,min_cost] = linprog(obj.cost_min_f, obj.A, obj.b,[],[], ...
-                [],[],[],obj.options);
+                [],[],[],obj.lin_options);
             [~,min_emi] = linprog(obj.emi_min_f, obj.A, obj.b,[],[], ...
-                [],[],[],obj.options);    
+                [],[],[],obj.lin_options);    
             
             % compute pareto curve
             for idx = 1:num_steps
@@ -310,7 +312,7 @@ classdef power_system < handle
                 % get new objective f for linprog and X as a result
                 f = (lambda/min_cost).*(obj.cost_c_o'*obj.cost_H) + ...
                     ((1-lambda)/min_emi).*(obj.g_i'*obj.emi_H);
-                X = linprog(f, obj.A, obj.b,[],[],[],[],[],obj.options);
+                X = linprog(f, obj.A, obj.b,[],[],[],[],[],obj.lin_options);
                 % compute new costs and emissions
                 costs(idx) = obj.cost_c_o'*obj.cost_H*X;
                 emissions(idx) = (obj.g_i'*obj.emi_H*X)*(10^-3);
@@ -328,7 +330,7 @@ classdef power_system < handle
                     
             % minimize emissions
             [~, min_emi] = linprog(obj.emi_min_f, obj.A, obj.b,[],[], ... 
-                [],[],[],obj.options);
+                [],[],[],obj.lin_options);
             
             num_caps = 1000;
             
@@ -340,7 +342,7 @@ classdef power_system < handle
                 new_b_row = min_emi + min_emi*caps(i);
                 new_b = [obj.b; (new_b_row)];
                 [~,cost] = linprog(obj.cost_min_f,new_A,new_b,[],[],[], ...
-                    [],[],obj.options);
+                    [],[],obj.lin_options);
                 caps(i) = new_b_row;
                 costs(i) = cost;
             end
@@ -369,7 +371,7 @@ classdef power_system < handle
                 rate = rates(i);
                 tax_f = obj.cost_min_f + obj.emi_min_f*(rate/100);
                 [x,cost] = linprog(tax_f,obj.A,obj.b,[],[],[],[],[], ... 
-                    obj.options);
+                    obj.lin_options);
                     costs(i) = cost;
                     emi = obj.g_i'*obj.emi_H*x;
                     emissions(i) = emi;   
@@ -450,7 +452,7 @@ classdef power_system < handle
             % obtain minimum emissions and minimum cost (for normalizing
             % pareto)
             [~,min_cost] = linprog(obj.cost_min_f, obj.A, obj.b,[],[], ...
-                [],[],[],obj.options);
+                [],[],[],obj.lin_options);
             [~,min_var] = quadprog(obj.var_quad_H,[],obj.A,obj.b);    
             
             % compute pareto curve
@@ -483,9 +485,9 @@ classdef power_system < handle
             % obtain minimum emissions and minimum cost (for normalizing
             % pareto)
             [~,min_cost] = linprog(obj.cost_min_f, obj.A, obj.b,[],[], ...
-                [],[],[],obj.options);
+                [],[],[],obj.lin_options);
             [~,min_emi] = linprog(obj.emi_min_f, obj.A, obj.b,[],[], ...
-                [],[],[],obj.options); 
+                [],[],[],obj.lin_options); 
             [~,min_var] = quadprog(obj.var_quad_H,[],obj.A,obj.b); 
             
             for idx_1 = 1:num_steps
@@ -496,7 +498,7 @@ classdef power_system < handle
                     f = (gamma/min_cost).*(obj.cost_min_f) + ...
                         ((1-lambda-gamma)/min_emi).*(obj.emi_min_f);
                     H = (lambda/min_var).*obj.var_quad_H;
-                    X = quadprog(H,f,obj.A,obj.b);
+                    X = quadprog(H,f,obj.A,obj.b,[],[],[],[],[],obj.quad_options);
                     % compute new costs and emissions
                     costs((idx_1-1)*num_steps + idx_2) = obj.cost_c_o'*obj.cost_H*X;
                     emissions((idx_1-1)*num_steps + idx_2) = (obj.g_i'*obj.emi_H*X)*(10^-3);
