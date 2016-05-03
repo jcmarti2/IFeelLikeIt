@@ -10,7 +10,7 @@ note: a 'silly' name was chosen for this repository to avoid being found by clas
 
 note: to avoid future plagiarism, **this repository will be deleted after final grades are posted on May 21, 2016**.
 
-copyright: the authors of this repository **do not** authorize reproduction of the files included to anyone other than the CEE 498 SIS staff for grading purposes. we will not hesitate reporting plagiarism if we become aware of it.
+copyright: the authors of this repository **do not authorize reproduction of the files in this repository without prior request and coordination with the CEE 498 SIS staff**. we are happy to help you to the extent possible (and that may include allowing you to use our code with the condition that you provide proper citation), but we will not hesitate reporting plagiarism if we become aware of it.
 
 ## directories
 
