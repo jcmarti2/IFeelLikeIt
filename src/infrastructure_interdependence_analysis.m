@@ -99,7 +99,7 @@ end
 % instance. Run separately.
 if q_2_12
     changes = zeros(len,len);
-    changes(:,2) = [0 0 10 10 0 0 0 -10 -10 10]' ;
+    changes(2,:) = [0 0 10 10 0 0 0 -10 -10 10] ;
     
     gamma_bar_old = zeros(len,1);
     for i = 1:len
