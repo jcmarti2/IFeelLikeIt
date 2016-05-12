@@ -25,7 +25,7 @@ file = '../data/A.csv';
 len = 10;
 q_2_9 = false;
 q_2_10 = false;
-q_2_12 = true;
+q_2_12 = false;
 q_2_13 = false;
 q_2_15 = false;
 q_2_16 = false;
@@ -314,4 +314,17 @@ if q_2_18
     ylabel('Damage Coefficient','Interpreter','latex')
     xlabel('Infrastructure Sector','Interpreter','latex')
     grid on
+end
+
+% 2.19
+if q_2_19
+    b_219 = [0.3 1 0.25 1 1 1 0.35 1 1 1]'
+    [fmax,l,exitflag,output,lambda] = IIM.get_fmax_l1(b_219)
+    fprintf('Maximum initial impact vector f\n')
+    disp(fmax)
+    fprintf('l1 norm\n')
+    disp(-l)
+    fprintf('Degradation vector')
+    x = IIM.get_x(fmax)
+    fprintf('\n')
 end

@@ -151,7 +151,7 @@ classdef power_system < handle
                 variance = x'*obj.cost_H'*obj.cost_SIGMA*obj.cost_H*x;
                 
                 slack = find(obj.b - obj.A*abs(x) > 10^-10);
-                binding = find(~(obj.b - obj.A*abs(x) > 10^-10));
+                binding = find(~(obj.b - obj.A*abs(x) > 10^-10));   
                 shadow_cost = zeros(numel(binding),1);
                 shadow_emi = zeros(numel(binding),1);
                 shadow_var = zeros(numel(binding),1);
